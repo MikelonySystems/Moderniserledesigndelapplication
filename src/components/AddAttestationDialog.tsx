@@ -4,6 +4,7 @@ import { Label } from "./ui/label";
 import { Input } from "./ui/input";
 import { Upload, FileText } from "lucide-react";
 import { useState } from "react";
+import { toast } from "sonner@2.0.3";
 
 interface AddAttestationDialogProps {
   open: boolean;
@@ -80,6 +81,7 @@ export function AddAttestationDialog({ open, onOpenChange }: AddAttestationDialo
             disabled={!fileName}
             onClick={() => {
               // TODO: Logique de sauvegarde
+              toast.success('Attestation ajoutée avec succès !');
               onOpenChange(false);
               setFileName("");
             }}

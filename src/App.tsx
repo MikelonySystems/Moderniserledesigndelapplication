@@ -4,11 +4,13 @@ import { RevenueChart } from "./components/RevenueChart";
 import { InfoCard } from "./components/InfoCard";
 import { FloatingMenu } from "./components/FloatingMenu";
 import { FloatingHeader } from "./components/FloatingHeader";
+import { Toaster } from "./components/ui/sonner";
 import { Wallet, TrendingDown, Clock, Calendar } from "lucide-react";
 
 export default function App() {
   return (
     <div className="flex h-screen bg-background overflow-hidden">
+      <Toaster />
       <FloatingMenu />
       <FloatingHeader />
       
@@ -64,9 +66,9 @@ export default function App() {
 
                 <InfoCard
                   title="Prévisions"
+                  mainAmount="1 200,05 €"
                   items={[
-                    { label: "Indemnisation pour le mois de Septembre", value: "0 €" },
-                    { label: "Ici ma prévision pour le mois en cours", value: "" },
+                    { label: "Mois en cours", value: "Octobre 2025" },
                   ]}
                 />
               </div>

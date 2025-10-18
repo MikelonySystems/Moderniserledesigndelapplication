@@ -4,6 +4,7 @@ import { Input } from "./ui/input";
 import { Label } from "./ui/label";
 import { Textarea } from "./ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "./ui/select";
+import { toast } from "sonner@2.0.3";
 
 interface AddDepenseDialogProps {
   open: boolean;
@@ -84,6 +85,7 @@ export function AddDepenseDialog({ open, onOpenChange }: AddDepenseDialogProps) 
             className="bg-gradient-to-br from-primary to-purple-600 hover:opacity-90"
             onClick={() => {
               // TODO: Logique de sauvegarde
+              toast.success('Dépense ajoutée avec succès !');
               onOpenChange(false);
             }}
           >

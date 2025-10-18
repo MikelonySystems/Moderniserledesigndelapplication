@@ -4,6 +4,7 @@ import { Input } from "./ui/input";
 import { Label } from "./ui/label";
 import { Textarea } from "./ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "./ui/select";
+import { toast } from "sonner@2.0.3";
 
 interface AddCachetDialogProps {
   open: boolean;
@@ -65,10 +66,17 @@ export function AddCachetDialog({ open, onOpenChange }: AddCachetDialogProps) {
             </div>
           </div>
 
-          {/* Date */}
-          <div className="space-y-2">
-            <Label htmlFor="date">Date</Label>
-            <Input id="date" type="date" />
+          {/* Date et Répétitions */}
+          <div className="grid grid-cols-2 gap-4">
+            <div className="space-y-2">
+              <Label htmlFor="date">Date de début</Label>
+              <Input id="date" type="date" />
+            </div>
+            
+            <div className="space-y-2">
+              <Label htmlFor="repetitions">Répéter sur (jours)</Label>
+              <Input id="repetitions" type="number" min="1" step="1" defaultValue="1" placeholder="1" />
+            </div>
           </div>
 
           {/* Heure de début, Heure de fin, Pause */}
@@ -133,6 +141,15 @@ export function AddCachetDialog({ open, onOpenChange }: AddCachetDialogProps) {
             className="bg-gradient-to-br from-primary to-purple-600 hover:opacity-90"
             onClick={() => {
               // TODO: Logique de sauvegarde
+              const repetitionsInput = document.getElementById('repetitions') as HTMLInputElement;
+              const repetitions = parseInt(repetitionsInput?.value || '1');
+              
+              if (repetitions > 1) {
+                toast.success(`${repetitions} cachets identiques ont été ajoutés avec succès !`);
+              } else {
+                toast.success('Cachet ajouté avec succès !');
+              }
+              
               onOpenChange(false);
             }}
           >
