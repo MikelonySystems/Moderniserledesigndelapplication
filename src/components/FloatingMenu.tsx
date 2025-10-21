@@ -1,15 +1,20 @@
 import { LayoutDashboard, Receipt, CreditCard, Car, Briefcase, TrendingUp, Settings } from "lucide-react";
 
 const menuItems = [
-  { title: "Dashboard", icon: LayoutDashboard, active: true },
-  { title: "Cachets", icon: Receipt, active: false },
-  { title: "Dépenses", icon: CreditCard, active: false },
-  { title: "Trajets", icon: Car, active: false },
-  { title: "AEM", icon: Briefcase, active: false },
-  { title: "Revenus", icon: TrendingUp, active: false },
+  { title: "Dashboard", icon: LayoutDashboard, page: "dashboard" },
+  { title: "Cachets", icon: Receipt, page: "cachets" },
+  { title: "Dépenses", icon: CreditCard, page: "depenses" },
+  { title: "Trajets", icon: Car, page: "trajets" },
+  { title: "AEM", icon: Briefcase, page: "aem" },
+  { title: "Revenus", icon: TrendingUp, page: "revenus" },
 ];
 
-export function FloatingMenu() {
+interface FloatingMenuProps {
+  currentPage: string;
+  onPageChange: (page: string) => void;
+}
+
+export function FloatingMenu({ currentPage, onPageChange }: FloatingMenuProps) {
   return (
     <aside className="fixed left-6 top-6 bottom-6 w-56 bg-card rounded-2xl border-0 shadow-lg z-50 flex flex-col">
       <div className="p-6 border-b border-border">
@@ -28,8 +33,9 @@ export function FloatingMenu() {
           {menuItems.map((item) => (
             <button
               key={item.title}
+              onClick={() => onPageChange(item.page)}
               className={`flex items-center gap-3 px-3 py-2.5 rounded-lg transition-all duration-200 text-left ${
-                item.active
+                currentPage === item.page
                   ? "bg-primary text-primary-foreground shadow-sm"
                   : "hover:bg-muted text-muted-foreground hover:text-foreground"
               }`}
