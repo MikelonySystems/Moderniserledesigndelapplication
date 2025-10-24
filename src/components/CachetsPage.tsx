@@ -7,15 +7,17 @@ import {
   TableHead,
   TableHeader,
   TableRow,
+  TableFooter,
 } from "./ui/table";
 import { Button } from "./ui/button";
 import { Label } from "./ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "./ui/select";
 import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover";
 import { Calendar } from "./ui/calendar";
-import { ArrowUpDown, ArrowUp, ArrowDown, Calendar as CalendarIcon } from "lucide-react";
+import { ArrowUpDown, ArrowUp, ArrowDown, Calendar as CalendarIcon, Pencil, Trash2 } from "lucide-react";
 import { format } from "date-fns@4.1.0";
 import { fr } from "date-fns@4.1.0/locale";
+import { toast } from "sonner@2.0.3";
 
 // Données d'exemple
 const cachetsMockData = [
@@ -173,6 +175,15 @@ export function CachetsPage() {
     return true;
   });
 
+  // Calcul des totaux
+  const totals = filteredCachets.reduce(
+    (acc, cachet) => ({
+      totalHeures: acc.totalHeures + cachet.totalHeures,
+      totalBrut: acc.totalBrut + cachet.totalBrut,
+    }),
+    { totalHeures: 0, totalBrut: 0 }
+  );
+
   // Icône de tri
   const getSortIcon = () => {
     if (sortOrder === "asc") return <ArrowUp className="h-4 w-4" />;
@@ -285,34 +296,33 @@ export function CachetsPage() {
 
       {/* Tableau */}
       <Card className="flex-1 p-6 border border-border/50 shadow-sm overflow-hidden flex flex-col">
-        <h2 className="mb-4">Liste des cachets ({filteredCachets.length})</h2>
-        <div className="flex-1 overflow-auto rounded-lg border border-border/50">
-          <Table>
+        <div className="flex-1 overflow-y-auto overflow-x-auto rounded-lg border border-border/50 relative">
+          <Table className="w-full">
             <TableHeader>
               <TableRow className="bg-muted/30 hover:bg-muted/30">
                 <TableHead className="sticky top-0 bg-muted/30 z-10 text-center">
                   <Button
                     variant="ghost"
                     onClick={handleSort}
-                    className="flex items-center gap-2 hover:bg-muted/50 mx-auto"
+                    className="flex items-center gap-2 hover:bg-muted/50 mx-auto whitespace-nowrap"
                   >
-                    Date événement
+                    Date
                     {getSortIcon()}
                   </Button>
                 </TableHead>
                 <TableHead className="sticky top-0 bg-muted/30 z-10 text-center">Employeur</TableHead>
-                <TableHead className="sticky top-0 bg-muted/30 z-10 text-center">Nb cachet</TableHead>
+                <TableHead className="sticky top-0 bg-muted/30 z-10 text-center">Nb</TableHead>
                 <TableHead className="sticky top-0 bg-muted/30 z-10 text-center">Montant</TableHead>
-                <TableHead className="sticky top-0 bg-muted/30 z-10 text-center">Total brut</TableHead>
-                <TableHead className="sticky top-0 bg-muted/30 z-10 text-center">H/cachet</TableHead>
-                <TableHead className="sticky top-0 bg-muted/30 z-10 text-center">Total heures</TableHead>
+                <TableHead className="sticky top-0 bg-muted/30 z-10 text-center">Total</TableHead>
+                <TableHead className="sticky top-0 bg-muted/30 z-10 text-center">H/C</TableHead>
+                <TableHead className="sticky top-0 bg-muted/30 z-10 text-center">Total H</TableHead>
                 <TableHead className="sticky top-0 bg-muted/30 z-10 text-center">Compétence</TableHead>
                 <TableHead className="sticky top-0 bg-muted/30 z-10 text-center">Début</TableHead>
                 <TableHead className="sticky top-0 bg-muted/30 z-10 text-center">Fin</TableHead>
-                <TableHead className="sticky top-0 bg-muted/30 z-10 text-center">Pause (h)</TableHead>
+                <TableHead className="sticky top-0 bg-muted/30 z-10 text-center">Pause</TableHead>
                 <TableHead className="sticky top-0 bg-muted/30 z-10 text-center">Transport</TableHead>
                 <TableHead className="sticky top-0 bg-muted/30 z-10 text-center">Lieu</TableHead>
-                <TableHead className="sticky top-0 bg-muted/30 z-10 text-center min-w-[200px]">Adresse</TableHead>
+                <TableHead className="sticky top-0 bg-muted/30 z-10 text-left">Adresse</TableHead>
                 <TableHead className="sticky top-0 bg-muted/30 z-10 text-center">Superviseur</TableHead>
               </TableRow>
             </TableHeader>
@@ -325,32 +335,85 @@ export function CachetsPage() {
                 </TableRow>
               ) : (
                 filteredCachets.map((cachet) => (
-                  <TableRow key={cachet.id} className="hover:bg-muted/20">
-                    <TableCell className="text-center">{formatDate(cachet.dateEvenement)}</TableCell>
-                    <TableCell className="text-center">{cachet.employeur}</TableCell>
-                    <TableCell className="text-center">{cachet.nombreCachet}</TableCell>
-                    <TableCell className="text-center">{cachet.montant.toFixed(2)} €</TableCell>
-                    <TableCell className="text-center">{cachet.totalBrut.toFixed(2)} €</TableCell>
-                    <TableCell className="text-center">{cachet.heureCachet}h</TableCell>
-                    <TableCell className="text-center">{cachet.totalHeures}h</TableCell>
-                    <TableCell className="text-center">
+                  <TableRow key={cachet.id} className="group hover:bg-muted/20 h-14">
+                    <TableCell className="text-center whitespace-nowrap">{formatDate(cachet.dateEvenement)}</TableCell>
+                    <TableCell className="text-center whitespace-nowrap">{cachet.employeur}</TableCell>
+                    <TableCell className="text-center whitespace-nowrap">{cachet.nombreCachet}</TableCell>
+                    <TableCell className="text-center whitespace-nowrap">{cachet.montant.toFixed(2)} €</TableCell>
+                    <TableCell className="text-center whitespace-nowrap">{cachet.totalBrut.toFixed(2)} €</TableCell>
+                    <TableCell className="text-center whitespace-nowrap">{cachet.heureCachet}h</TableCell>
+                    <TableCell className="text-center whitespace-nowrap">{cachet.totalHeures}h</TableCell>
+                    <TableCell className="text-center whitespace-nowrap">
                       <span className="text-muted-foreground text-sm">{cachet.competence}</span>
                     </TableCell>
-                    <TableCell className="text-center">{cachet.heureDebut}</TableCell>
-                    <TableCell className="text-center">{cachet.heureFin}</TableCell>
-                    <TableCell className="text-center">{cachet.tempsPause}h</TableCell>
-                    <TableCell className="text-center">
+                    <TableCell className="text-center whitespace-nowrap">{cachet.heureDebut}</TableCell>
+                    <TableCell className="text-center whitespace-nowrap">{cachet.heureFin}</TableCell>
+                    <TableCell className="text-center whitespace-nowrap">{cachet.tempsPause}h</TableCell>
+                    <TableCell className="text-center whitespace-nowrap">
                       <span className="text-muted-foreground text-sm">{cachet.transport}</span>
                     </TableCell>
-                    <TableCell className="text-center">{cachet.lieu}</TableCell>
-                    <TableCell className="text-center min-w-[200px]">
-                      <span className="text-muted-foreground text-sm">{cachet.adresse}</span>
+                    <TableCell className="text-center whitespace-nowrap">{cachet.lieu}</TableCell>
+                    <TableCell className="text-left max-w-[200px]">
+                      <span className="text-muted-foreground text-sm block">{cachet.adresse}</span>
                     </TableCell>
-                    <TableCell className="text-center">{cachet.superviseur}</TableCell>
+                    <TableCell className="text-center relative whitespace-nowrap">
+                      {cachet.superviseur}
+                      
+                      {/* Boutons flottants au survol avec effet de flou en dégradé */}
+                      <div className="absolute right-2 top-1/2 -translate-y-1/2 flex items-center gap-2 opacity-0 group-hover:opacity-100 transition-all duration-200 pointer-events-none group-hover:pointer-events-auto">
+                        {/* Fond flou en dégradé avec masque CSS */}
+                        <div 
+                          className="absolute inset-0 -inset-x-6 -inset-y-2 bg-background/95 backdrop-blur-md rounded-lg -z-10" 
+                          style={{
+                            maskImage: 'linear-gradient(to right, transparent 0%, black 25%, black 100%)',
+                            WebkitMaskImage: 'linear-gradient(to right, transparent 0%, black 25%, black 100%)'
+                          }}
+                        />
+                        
+                        <Button
+                          size="sm"
+                          variant="default"
+                          className="h-7 px-2.5 text-xs bg-primary/90 hover:bg-primary shadow-md relative z-10"
+                          onClick={() => toast.info(`Modifier le cachet #${cachet.id}`)}
+                        >
+                          <Pencil className="h-3.5 w-3.5 mr-1.5" />
+                          Modifier
+                        </Button>
+                        <Button
+                          size="sm"
+                          variant="destructive"
+                          className="h-7 px-2.5 text-xs shadow-md relative z-10"
+                          onClick={() => toast.error(`Supprimer le cachet #${cachet.id}`)}
+                        >
+                          <Trash2 className="h-3.5 w-3.5 mr-1.5" />
+                          Supprimer
+                        </Button>
+                      </div>
+                    </TableCell>
                   </TableRow>
                 ))
               )}
             </TableBody>
+            <TableFooter>
+              <TableRow className="sticky bottom-0 bg-muted/50 hover:bg-muted/50">
+                <TableCell colSpan={15} className="py-4">
+                  <div className="flex flex-wrap items-center gap-6">
+                    <div className="space-y-1">
+                      <p className="text-xs uppercase tracking-wide text-muted-foreground">Total cachets</p>
+                      <p className="text-lg">{filteredCachets.length}</p>
+                    </div>
+                    <div className="space-y-1">
+                      <p className="text-xs uppercase tracking-wide text-muted-foreground">Total heures</p>
+                      <p className="text-lg">{totals.totalHeures}h</p>
+                    </div>
+                    <div className="space-y-1">
+                      <p className="text-xs uppercase tracking-wide text-muted-foreground">Total brut</p>
+                      <p className="text-lg">{totals.totalBrut.toFixed(2)} €</p>
+                    </div>
+                  </div>
+                </TableCell>
+              </TableRow>
+            </TableFooter>
           </Table>
         </div>
       </Card>

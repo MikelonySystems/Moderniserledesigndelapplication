@@ -1,9 +1,14 @@
+import { useState } from "react";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "./ui/dialog";
 import { Button } from "./ui/button";
 import { Input } from "./ui/input";
 import { Label } from "./ui/label";
 import { Textarea } from "./ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "./ui/select";
+import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList } from "./ui/command";
+import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover";
+import { Check, ChevronsUpDown } from "lucide-react";
+import { cn } from "./ui/utils";
 import { toast } from "sonner@2.0.3";
 
 interface AddCachetDialogProps {
@@ -11,7 +16,141 @@ interface AddCachetDialogProps {
   onOpenChange: (open: boolean) => void;
 }
 
+// Données simulées de la base de données
+const mockEmployeurs = [
+  "Théâtre National",
+  "Opéra de Paris",
+  "Festival d'été",
+  "Salle Pleyel",
+  "Zénith Paris",
+  "Comédie Française",
+  "Philharmonie de Paris",
+];
+
+const mockLieux = [
+  "Théâtre National",
+  "Opéra Garnier",
+  "Parc de la Villette",
+  "Salle Pleyel",
+  "Zénith Paris",
+  "Comédie Française",
+  "Philharmonie de Paris",
+];
+
+const mockAdresses = [
+  "2 Rue de la Colline, 75001 Paris",
+  "Place de l'Opéra, 75009 Paris",
+  "211 Avenue Jean Jaurès, 75019 Paris",
+  "252 Rue du Faubourg Saint-Honoré, 75008 Paris",
+  "1 Place du Colonel Fabien, 75019 Paris",
+  "221 Rue Saint-Honoré, 75001 Paris",
+];
+
+const mockChefs = [
+  "Jean Dupont",
+  "Marie Martin",
+  "Pierre Blanc",
+  "Sophie Durand",
+  "Luc Bernard",
+  "Claire Moreau",
+];
+
+// Composant Combobox réutilisable
+interface ComboboxProps {
+  id: string;
+  value: string;
+  onValueChange: (value: string) => void;
+  options: string[];
+  placeholder: string;
+  searchPlaceholder?: string;
+  emptyMessage?: string;
+}
+
+function Combobox({ id, value, onValueChange, options, placeholder, searchPlaceholder = "Rechercher...", emptyMessage = "Aucun résultat trouvé." }: ComboboxProps) {
+  const [open, setOpen] = useState(false);
+  const [inputValue, setInputValue] = useState(value);
+
+  return (
+    <Popover open={open} onOpenChange={setOpen}>
+      <PopoverTrigger asChild>
+        <Button
+          variant="outline"
+          role="combobox"
+          aria-expanded={open}
+          className="w-full justify-between"
+        >
+          <span className="truncate">{value || placeholder}</span>
+          <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+        </Button>
+      </PopoverTrigger>
+      <PopoverContent className="w-full p-0" align="start">
+        <Command>
+          <CommandInput 
+            placeholder={searchPlaceholder} 
+            value={inputValue}
+            onValueChange={(val) => {
+              setInputValue(val);
+              onValueChange(val);
+            }}
+          />
+          <CommandList>
+            <CommandEmpty>
+              <div className="py-2 px-2">
+                <p className="text-sm text-muted-foreground mb-2">{emptyMessage}</p>
+                {inputValue && (
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    className="w-full justify-start"
+                    onClick={() => {
+                      onValueChange(inputValue);
+                      setOpen(false);
+                    }}
+                  >
+                    <Check className="mr-2 h-4 w-4" />
+                    Utiliser "{inputValue}"
+                  </Button>
+                )}
+              </div>
+            </CommandEmpty>
+            <CommandGroup>
+              {options
+                .filter((option) => 
+                  option.toLowerCase().includes(inputValue.toLowerCase())
+                )
+                .map((option) => (
+                  <CommandItem
+                    key={option}
+                    value={option}
+                    onSelect={(currentValue) => {
+                      onValueChange(currentValue === value ? "" : currentValue);
+                      setInputValue(currentValue === value ? "" : currentValue);
+                      setOpen(false);
+                    }}
+                  >
+                    <Check
+                      className={cn(
+                        "mr-2 h-4 w-4",
+                        value === option ? "opacity-100" : "opacity-0"
+                      )}
+                    />
+                    {option}
+                  </CommandItem>
+                ))}
+            </CommandGroup>
+          </CommandList>
+        </Command>
+      </PopoverContent>
+    </Popover>
+  );
+}
+
 export function AddCachetDialog({ open, onOpenChange }: AddCachetDialogProps) {
+  const [employeur, setEmployeur] = useState("");
+  const [lieu, setLieu] = useState("");
+  const [adresse, setAdresse] = useState("");
+  const [chef, setChef] = useState("");
+
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="sm:max-w-[700px] max-h-[90vh] overflow-y-auto">
@@ -26,7 +165,14 @@ export function AddCachetDialog({ open, onOpenChange }: AddCachetDialogProps) {
           {/* Employeur */}
           <div className="space-y-2">
             <Label htmlFor="employeur">Employeur</Label>
-            <Input id="employeur" placeholder="Nom de l'employeur" />
+            <Combobox
+              id="employeur"
+              value={employeur}
+              onValueChange={setEmployeur}
+              options={mockEmployeurs}
+              placeholder="Sélectionner ou saisir un employeur"
+              searchPlaceholder="Rechercher un employeur..."
+            />
           </div>
 
           {/* Nombre de cachet et Montant */}
@@ -116,20 +262,41 @@ export function AddCachetDialog({ open, onOpenChange }: AddCachetDialogProps) {
             
             <div className="space-y-2">
               <Label htmlFor="lieu">Lieu</Label>
-              <Input id="lieu" placeholder="Nom du lieu" />
+              <Combobox
+                id="lieu"
+                value={lieu}
+                onValueChange={setLieu}
+                options={mockLieux}
+                placeholder="Sélectionner ou saisir un lieu"
+                searchPlaceholder="Rechercher un lieu..."
+              />
             </div>
           </div>
 
           {/* Adresse */}
           <div className="space-y-2">
             <Label htmlFor="adresse">Adresse</Label>
-            <Input id="adresse" placeholder="Adresse complète" />
+            <Combobox
+              id="adresse"
+              value={adresse}
+              onValueChange={setAdresse}
+              options={mockAdresses}
+              placeholder="Sélectionner ou saisir une adresse"
+              searchPlaceholder="Rechercher une adresse..."
+            />
           </div>
 
           {/* Chef de chantier */}
           <div className="space-y-2">
             <Label htmlFor="chef">Chef de chantier</Label>
-            <Input id="chef" placeholder="Nom du chef de chantier" />
+            <Combobox
+              id="chef"
+              value={chef}
+              onValueChange={setChef}
+              options={mockChefs}
+              placeholder="Sélectionner ou saisir un chef de chantier"
+              searchPlaceholder="Rechercher un chef de chantier..."
+            />
           </div>
         </div>
 
