@@ -1,4 +1,4 @@
-import { LayoutDashboard, Receipt, CreditCard, Car, Briefcase, TrendingUp, Settings } from "lucide-react";
+import { LayoutDashboard, Receipt, CreditCard, Car, Briefcase, TrendingUp, FileText, Settings } from "lucide-react";
 
 const menuItems = [
   { title: "Dashboard", icon: LayoutDashboard, page: "dashboard" },
@@ -7,6 +7,7 @@ const menuItems = [
   { title: "Trajets", icon: Car, page: "trajets" },
   { title: "AEM", icon: Briefcase, page: "aem" },
   { title: "Revenus", icon: TrendingUp, page: "revenus" },
+  { title: "Bilan Annuel", icon: FileText, page: "bilan" },
 ];
 
 interface FloatingMenuProps {

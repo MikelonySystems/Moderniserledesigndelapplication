@@ -18,6 +18,7 @@ import { ArrowUpDown, ArrowUp, ArrowDown, Calendar as CalendarIcon, Pencil, Tras
 import { format } from "date-fns@4.1.0";
 import { fr } from "date-fns@4.1.0/locale";
 import { toast } from "sonner@2.0.3";
+import { EditCachetDialog } from "./EditCachetDialog";
 
 // Données d'exemple
 const cachetsMockData = [
@@ -124,6 +125,8 @@ export function CachetsPage() {
   });
   const [employeurFiltre, setEmployeurFiltre] = useState("");
   const [superviseurFiltre, setSuperviseurFiltre] = useState("");
+  const [editDialogOpen, setEditDialogOpen] = useState(false);
+  const [selectedCachet, setSelectedCachet] = useState<typeof cachetsMockData[0] | null>(null);
 
   // Récupérer les employeurs et superviseurs uniques
   const employeurs = Array.from(new Set(cachetsMockData.map(c => c.employeur)));
@@ -199,6 +202,17 @@ export function CachetsPage() {
       month: "2-digit",
       year: "numeric",
     });
+  };
+
+  // Gérer la modification d'un cachet
+  const handleEditCachet = (cachet: typeof cachetsMockData[0]) => {
+    setSelectedCachet(cachet);
+    setEditDialogOpen(true);
+  };
+
+  // Gérer la sauvegarde d'un cachet modifié
+  const handleSaveCachet = (updatedCachet: typeof cachetsMockData[0]) => {
+    setCachets(cachets.map(c => c.id === updatedCachet.id ? updatedCachet : c));
   };
 
   return (
@@ -374,7 +388,7 @@ export function CachetsPage() {
                           size="sm"
                           variant="default"
                           className="h-7 px-2.5 text-xs bg-primary/90 hover:bg-primary shadow-md relative z-10"
-                          onClick={() => toast.info(`Modifier le cachet #${cachet.id}`)}
+                          onClick={() => handleEditCachet(cachet)}
                         >
                           <Pencil className="h-3.5 w-3.5 mr-1.5" />
                           Modifier
@@ -417,6 +431,14 @@ export function CachetsPage() {
           </Table>
         </div>
       </Card>
+
+      {/* Dialog de modification */}
+      <EditCachetDialog
+        open={editDialogOpen}
+        onOpenChange={setEditDialogOpen}
+        cachet={selectedCachet}
+        onSave={handleSaveCachet}
+      />
     </div>
   );
 }

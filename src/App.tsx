@@ -7,6 +7,7 @@ import { InfoCard } from "./components/InfoCard";
 import { FloatingMenu } from "./components/FloatingMenu";
 import { FloatingHeader } from "./components/FloatingHeader";
 import { CachetsPage } from "./components/CachetsPage";
+import { BilanAnnuelPage } from "./components/BilanAnnuelPage";
 import { Toaster } from "./components/ui/sonner";
 import { Wallet, TrendingDown, Clock, Calendar } from "lucide-react";
 
@@ -98,6 +99,10 @@ export default function App() {
           ) : currentPage === "cachets" ? (
             <div className="max-w-[1800px] mx-auto h-full">
               <CachetsPage />
+            </div>
+          ) : currentPage === "bilan" ? (
+            <div className="max-w-[1400px] mx-auto h-full overflow-y-auto">
+              <BilanAnnuelPage />
             </div>
           ) : (
             <div className="max-w-[1600px] mx-auto h-full flex items-center justify-center">
