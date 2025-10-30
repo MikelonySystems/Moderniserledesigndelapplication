@@ -1,14 +1,5 @@
 import { useState } from "react";
 import { Card } from "./ui/card";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-  TableFooter,
-} from "./ui/table";
 import { Button } from "./ui/button";
 import { Label } from "./ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "./ui/select";
@@ -111,6 +102,546 @@ const cachetsMockData = [
     lieu: "Zénith Paris",
     adresse: "211 Avenue Jean Jaurès, 75019 Paris",
     superviseur: "Sophie Durand",
+  },
+  {
+    id: 6,
+    dateEvenement: "2025-09-28",
+    employeur: "Théâtre de la Ville",
+    nombreCachet: 1,
+    montant: 420,
+    totalBrut: 420,
+    heureCachet: 7,
+    totalHeures: 7,
+    competence: "Technicien son",
+    heureDebut: "15:00",
+    heureFin: "22:00",
+    tempsPause: 0,
+    transport: "Métro",
+    lieu: "Théâtre de la Ville",
+    adresse: "2 Place du Châtelet, 75004 Paris",
+    superviseur: "Jean Dupont",
+  },
+  {
+    id: 7,
+    dateEvenement: "2025-09-25",
+    employeur: "Stade de France",
+    nombreCachet: 2,
+    montant: 520,
+    totalBrut: 1040,
+    heureCachet: 10,
+    totalHeures: 20,
+    competence: "Régisseur général",
+    heureDebut: "12:00",
+    heureFin: "02:00",
+    tempsPause: 2,
+    transport: "Véhicule personnel",
+    lieu: "Stade de France",
+    adresse: "93200 Saint-Denis",
+    superviseur: "Pierre Blanc",
+  },
+  {
+    id: 8,
+    dateEvenement: "2025-09-22",
+    employeur: "Olympia",
+    nombreCachet: 1,
+    montant: 480,
+    totalBrut: 480,
+    heureCachet: 8,
+    totalHeures: 8,
+    competence: "Technicien lumière",
+    heureDebut: "17:00",
+    heureFin: "01:00",
+    tempsPause: 0,
+    transport: "Métro",
+    lieu: "Olympia",
+    adresse: "28 Boulevard des Capucines, 75009 Paris",
+    superviseur: "Marie Martin",
+  },
+  {
+    id: 9,
+    dateEvenement: "2025-09-18",
+    employeur: "Philharmonie de Paris",
+    nombreCachet: 1,
+    montant: 550,
+    totalBrut: 550,
+    heureCachet: 9,
+    totalHeures: 9,
+    competence: "Technicien son",
+    heureDebut: "14:00",
+    heureFin: "23:00",
+    tempsPause: 0,
+    transport: "Véhicule personnel",
+    lieu: "Philharmonie",
+    adresse: "221 Avenue Jean Jaurès, 75019 Paris",
+    superviseur: "Sophie Durand",
+  },
+  {
+    id: 10,
+    dateEvenement: "2025-09-15",
+    employeur: "Bataclan",
+    nombreCachet: 1,
+    montant: 400,
+    totalBrut: 400,
+    heureCachet: 7,
+    totalHeures: 7,
+    competence: "Technicien plateau",
+    heureDebut: "18:00",
+    heureFin: "01:00",
+    tempsPause: 0,
+    transport: "Métro",
+    lieu: "Bataclan",
+    adresse: "50 Boulevard Voltaire, 75011 Paris",
+    superviseur: "Jean Dupont",
+  },
+  {
+    id: 11,
+    dateEvenement: "2025-09-12",
+    employeur: "Casino de Paris",
+    nombreCachet: 1,
+    montant: 460,
+    totalBrut: 460,
+    heureCachet: 8,
+    totalHeures: 8,
+    competence: "Technicien vidéo",
+    heureDebut: "16:00",
+    heureFin: "00:00",
+    tempsPause: 0,
+    transport: "Véhicule personnel",
+    lieu: "Casino de Paris",
+    adresse: "16 Rue de Clichy, 75009 Paris",
+    superviseur: "Marie Martin",
+  },
+  {
+    id: 12,
+    dateEvenement: "2025-09-08",
+    employeur: "La Cigale",
+    nombreCachet: 1,
+    montant: 380,
+    totalBrut: 380,
+    heureCachet: 6,
+    totalHeures: 6,
+    competence: "Technicien lumière",
+    heureDebut: "19:00",
+    heureFin: "01:00",
+    tempsPause: 0,
+    transport: "Métro",
+    lieu: "La Cigale",
+    adresse: "120 Boulevard de Rochechouart, 75018 Paris",
+    superviseur: "Pierre Blanc",
+  },
+  {
+    id: 13,
+    dateEvenement: "2025-09-05",
+    employeur: "Accor Arena",
+    nombreCachet: 2,
+    montant: 500,
+    totalBrut: 1000,
+    heureCachet: 10,
+    totalHeures: 20,
+    competence: "Régisseur son",
+    heureDebut: "11:00",
+    heureFin: "01:00",
+    tempsPause: 2,
+    transport: "Véhicule personnel",
+    lieu: "Accor Arena",
+    adresse: "8 Boulevard de Bercy, 75012 Paris",
+    superviseur: "Sophie Durand",
+  },
+  {
+    id: 14,
+    dateEvenement: "2025-09-01",
+    employeur: "Le Trianon",
+    nombreCachet: 1,
+    montant: 390,
+    totalBrut: 390,
+    heureCachet: 7,
+    totalHeures: 7,
+    competence: "Technicien plateau",
+    heureDebut: "18:00",
+    heureFin: "01:00",
+    tempsPause: 0,
+    transport: "Métro",
+    lieu: "Le Trianon",
+    adresse: "80 Boulevard de Rochechouart, 75018 Paris",
+    superviseur: "Jean Dupont",
+  },
+  {
+    id: 15,
+    dateEvenement: "2025-08-28",
+    employeur: "Théâtre National",
+    nombreCachet: 1,
+    montant: 470,
+    totalBrut: 470,
+    heureCachet: 8,
+    totalHeures: 8,
+    competence: "Technicien son",
+    heureDebut: "15:00",
+    heureFin: "23:00",
+    tempsPause: 0,
+    transport: "Véhicule personnel",
+    lieu: "Théâtre National",
+    adresse: "2 Rue de la Colline, 75001 Paris",
+    superviseur: "Marie Martin",
+  },
+  {
+    id: 16,
+    dateEvenement: "2025-08-25",
+    employeur: "Grand Rex",
+    nombreCachet: 1,
+    montant: 490,
+    totalBrut: 490,
+    heureCachet: 8,
+    totalHeures: 8,
+    competence: "Technicien vidéo",
+    heureDebut: "16:00",
+    heureFin: "00:00",
+    tempsPause: 0,
+    transport: "Métro",
+    lieu: "Grand Rex",
+    adresse: "1 Boulevard Poissonnière, 75002 Paris",
+    superviseur: "Pierre Blanc",
+  },
+  {
+    id: 17,
+    dateEvenement: "2025-08-22",
+    employeur: "Opéra de Paris",
+    nombreCachet: 1,
+    montant: 600,
+    totalBrut: 600,
+    heureCachet: 10,
+    totalHeures: 10,
+    competence: "Régisseur lumière",
+    heureDebut: "13:00",
+    heureFin: "23:00",
+    tempsPause: 0,
+    transport: "Véhicule personnel",
+    lieu: "Opéra Garnier",
+    adresse: "Place de l'Opéra, 75009 Paris",
+    superviseur: "Sophie Durand",
+  },
+  {
+    id: 18,
+    dateEvenement: "2025-08-18",
+    employeur: "Zénith Paris",
+    nombreCachet: 2,
+    montant: 430,
+    totalBrut: 860,
+    heureCachet: 8,
+    totalHeures: 16,
+    competence: "Technicien son",
+    heureDebut: "14:00",
+    heureFin: "00:00",
+    tempsPause: 2,
+    transport: "Véhicule personnel",
+    lieu: "Zénith Paris",
+    adresse: "211 Avenue Jean Jaurès, 75019 Paris",
+    superviseur: "Jean Dupont",
+  },
+  {
+    id: 19,
+    dateEvenement: "2025-08-15",
+    employeur: "Festival d'été",
+    nombreCachet: 1,
+    montant: 380,
+    totalBrut: 380,
+    heureCachet: 6,
+    totalHeures: 6,
+    competence: "Technicien plateau",
+    heureDebut: "17:00",
+    heureFin: "23:00",
+    tempsPause: 0,
+    transport: "Métro",
+    lieu: "Parc de la Villette",
+    adresse: "211 Avenue Jean Jaurès, 75019 Paris",
+    superviseur: "Marie Martin",
+  },
+  {
+    id: 20,
+    dateEvenement: "2025-08-12",
+    employeur: "Salle Pleyel",
+    nombreCachet: 1,
+    montant: 410,
+    totalBrut: 410,
+    heureCachet: 7,
+    totalHeures: 7,
+    competence: "Technicien lumière",
+    heureDebut: "16:00",
+    heureFin: "23:00",
+    tempsPause: 0,
+    transport: "Véhicule personnel",
+    lieu: "Salle Pleyel",
+    adresse: "252 Rue du Faubourg Saint-Honoré, 75008 Paris",
+    superviseur: "Pierre Blanc",
+  },
+  {
+    id: 21,
+    dateEvenement: "2025-08-08",
+    employeur: "Stade de France",
+    nombreCachet: 1,
+    montant: 550,
+    totalBrut: 550,
+    heureCachet: 10,
+    totalHeures: 10,
+    competence: "Régisseur vidéo",
+    heureDebut: "12:00",
+    heureFin: "22:00",
+    tempsPause: 0,
+    transport: "Véhicule personnel",
+    lieu: "Stade de France",
+    adresse: "93200 Saint-Denis",
+    superviseur: "Sophie Durand",
+  },
+  {
+    id: 22,
+    dateEvenement: "2025-08-05",
+    employeur: "Olympia",
+    nombreCachet: 1,
+    montant: 450,
+    totalBrut: 450,
+    heureCachet: 8,
+    totalHeures: 8,
+    competence: "Technicien son",
+    heureDebut: "17:00",
+    heureFin: "01:00",
+    tempsPause: 0,
+    transport: "Métro",
+    lieu: "Olympia",
+    adresse: "28 Boulevard des Capucines, 75009 Paris",
+    superviseur: "Jean Dupont",
+  },
+  {
+    id: 23,
+    dateEvenement: "2025-08-01",
+    employeur: "Philharmonie de Paris",
+    nombreCachet: 1,
+    montant: 570,
+    totalBrut: 570,
+    heureCachet: 9,
+    totalHeures: 9,
+    competence: "Régisseur plateau",
+    heureDebut: "14:00",
+    heureFin: "23:00",
+    tempsPause: 0,
+    transport: "Véhicule personnel",
+    lieu: "Philharmonie",
+    adresse: "221 Avenue Jean Jaurès, 75019 Paris",
+    superviseur: "Marie Martin",
+  },
+  {
+    id: 24,
+    dateEvenement: "2025-07-28",
+    employeur: "Bataclan",
+    nombreCachet: 1,
+    montant: 395,
+    totalBrut: 395,
+    heureCachet: 7,
+    totalHeures: 7,
+    competence: "Technicien lumière",
+    heureDebut: "18:00",
+    heureFin: "01:00",
+    tempsPause: 0,
+    transport: "Métro",
+    lieu: "Bataclan",
+    adresse: "50 Boulevard Voltaire, 75011 Paris",
+    superviseur: "Pierre Blanc",
+  },
+  {
+    id: 25,
+    dateEvenement: "2025-07-25",
+    employeur: "Casino de Paris",
+    nombreCachet: 2,
+    montant: 440,
+    totalBrut: 880,
+    heureCachet: 8,
+    totalHeures: 16,
+    competence: "Technicien plateau",
+    heureDebut: "15:00",
+    heureFin: "01:00",
+    tempsPause: 2,
+    transport: "Véhicule personnel",
+    lieu: "Casino de Paris",
+    adresse: "16 Rue de Clichy, 75009 Paris",
+    superviseur: "Sophie Durand",
+  },
+  {
+    id: 26,
+    dateEvenement: "2025-07-22",
+    employeur: "La Cigale",
+    nombreCachet: 1,
+    montant: 370,
+    totalBrut: 370,
+    heureCachet: 6,
+    totalHeures: 6,
+    competence: "Technicien vidéo",
+    heureDebut: "19:00",
+    heureFin: "01:00",
+    tempsPause: 0,
+    transport: "Métro",
+    lieu: "La Cigale",
+    adresse: "120 Boulevard de Rochechouart, 75018 Paris",
+    superviseur: "Jean Dupont",
+  },
+  {
+    id: 27,
+    dateEvenement: "2025-07-18",
+    employeur: "Accor Arena",
+    nombreCachet: 1,
+    montant: 530,
+    totalBrut: 530,
+    heureCachet: 10,
+    totalHeures: 10,
+    competence: "Technicien son",
+    heureDebut: "12:00",
+    heureFin: "22:00",
+    tempsPause: 0,
+    transport: "Véhicule personnel",
+    lieu: "Accor Arena",
+    adresse: "8 Boulevard de Bercy, 75012 Paris",
+    superviseur: "Marie Martin",
+  },
+  {
+    id: 28,
+    dateEvenement: "2025-07-15",
+    employeur: "Le Trianon",
+    nombreCachet: 1,
+    montant: 385,
+    totalBrut: 385,
+    heureCachet: 7,
+    totalHeures: 7,
+    competence: "Technicien lumière",
+    heureDebut: "18:00",
+    heureFin: "01:00",
+    tempsPause: 0,
+    transport: "Métro",
+    lieu: "Le Trianon",
+    adresse: "80 Boulevard de Rochechouart, 75018 Paris",
+    superviseur: "Pierre Blanc",
+  },
+  {
+    id: 29,
+    dateEvenement: "2025-07-12",
+    employeur: "Théâtre National",
+    nombreCachet: 1,
+    montant: 460,
+    totalBrut: 460,
+    heureCachet: 8,
+    totalHeures: 8,
+    competence: "Régisseur général",
+    heureDebut: "14:00",
+    heureFin: "22:00",
+    tempsPause: 0,
+    transport: "Véhicule personnel",
+    lieu: "Théâtre National",
+    adresse: "2 Rue de la Colline, 75001 Paris",
+    superviseur: "Sophie Durand",
+  },
+  {
+    id: 30,
+    dateEvenement: "2025-07-08",
+    employeur: "Grand Rex",
+    nombreCachet: 1,
+    montant: 475,
+    totalBrut: 475,
+    heureCachet: 8,
+    totalHeures: 8,
+    competence: "Technicien vidéo",
+    heureDebut: "16:00",
+    heureFin: "00:00",
+    tempsPause: 0,
+    transport: "Métro",
+    lieu: "Grand Rex",
+    adresse: "1 Boulevard Poissonnière, 75002 Paris",
+    superviseur: "Jean Dupont",
+  },
+  {
+    id: 31,
+    dateEvenement: "2025-07-05",
+    employeur: "Opéra de Paris",
+    nombreCachet: 1,
+    montant: 590,
+    totalBrut: 590,
+    heureCachet: 10,
+    totalHeures: 10,
+    competence: "Technicien son",
+    heureDebut: "13:00",
+    heureFin: "23:00",
+    tempsPause: 0,
+    transport: "Véhicule personnel",
+    lieu: "Opéra Garnier",
+    adresse: "Place de l'Opéra, 75009 Paris",
+    superviseur: "Marie Martin",
+  },
+  {
+    id: 32,
+    dateEvenement: "2025-07-01",
+    employeur: "Zénith Paris",
+    nombreCachet: 1,
+    montant: 445,
+    totalBrut: 445,
+    heureCachet: 8,
+    totalHeures: 8,
+    competence: "Technicien plateau",
+    heureDebut: "15:00",
+    heureFin: "23:00",
+    tempsPause: 0,
+    transport: "Métro",
+    lieu: "Zénith Paris",
+    adresse: "211 Avenue Jean Jaurès, 75019 Paris",
+    superviseur: "Pierre Blanc",
+  },
+  {
+    id: 33,
+    dateEvenement: "2025-06-28",
+    employeur: "Festival d'été",
+    nombreCachet: 2,
+    montant: 365,
+    totalBrut: 730,
+    heureCachet: 6,
+    totalHeures: 12,
+    competence: "Technicien lumière",
+    heureDebut: "16:00",
+    heureFin: "00:00",
+    tempsPause: 2,
+    transport: "Véhicule personnel",
+    lieu: "Parc de la Villette",
+    adresse: "211 Avenue Jean Jaurès, 75019 Paris",
+    superviseur: "Sophie Durand",
+  },
+  {
+    id: 34,
+    dateEvenement: "2025-06-25",
+    employeur: "Salle Pleyel",
+    nombreCachet: 1,
+    montant: 405,
+    totalBrut: 405,
+    heureCachet: 7,
+    totalHeures: 7,
+    competence: "Technicien vidéo",
+    heureDebut: "17:00",
+    heureFin: "00:00",
+    tempsPause: 0,
+    transport: "Métro",
+    lieu: "Salle Pleyel",
+    adresse: "252 Rue du Faubourg Saint-Honoré, 75008 Paris",
+    superviseur: "Jean Dupont",
+  },
+  {
+    id: 35,
+    dateEvenement: "2025-06-22",
+    employeur: "Stade de France",
+    nombreCachet: 1,
+    montant: 560,
+    totalBrut: 560,
+    heureCachet: 10,
+    totalHeures: 10,
+    competence: "Régisseur son",
+    heureDebut: "11:00",
+    heureFin: "21:00",
+    tempsPause: 0,
+    transport: "Véhicule personnel",
+    lieu: "Stade de France",
+    adresse: "93200 Saint-Denis",
+    superviseur: "Marie Martin",
   },
 ];
 
@@ -216,7 +747,7 @@ export function CachetsPage() {
   };
 
   return (
-    <div className="h-full flex flex-col gap-4">
+    <div className="h-full flex flex-col gap-4 p-6">
       {/* Filtres */}
       <Card className="p-6 border border-border/50 shadow-sm">
         <div className="flex flex-wrap gap-4 items-end">
@@ -308,13 +839,13 @@ export function CachetsPage() {
         </div>
       </Card>
 
-      {/* Tableau */}
-      <Card className="flex-1 p-6 border border-border/50 shadow-sm overflow-hidden flex flex-col">
-        <div className="flex-1 overflow-y-auto overflow-x-auto rounded-lg border border-border/50 relative">
-          <Table className="w-full">
-            <TableHeader>
-              <TableRow className="bg-muted/30 hover:bg-muted/30">
-                <TableHead className="sticky top-0 bg-muted/30 z-10 text-center">
+      {/* Tableau avec en-tête et pied fixes */}
+      <Card className="flex-1 border border-border/50 shadow-sm overflow-hidden p-6 flex flex-col min-h-0">
+        <div className="flex-1 overflow-auto rounded-lg border border-border/50 relative min-h-0">
+          <table className="w-full caption-bottom text-sm relative">
+            <thead className="sticky top-0 z-10 bg-background [&_tr]:border-b">
+              <tr className="bg-muted/30 hover:bg-muted/30 border-b border-border/50">
+                <th className="bg-muted/30 h-10 px-2 text-center align-middle whitespace-nowrap">
                   <Button
                     variant="ghost"
                     onClick={handleSort}
@@ -323,54 +854,54 @@ export function CachetsPage() {
                     Date
                     {getSortIcon()}
                   </Button>
-                </TableHead>
-                <TableHead className="sticky top-0 bg-muted/30 z-10 text-center">Employeur</TableHead>
-                <TableHead className="sticky top-0 bg-muted/30 z-10 text-center">Nb</TableHead>
-                <TableHead className="sticky top-0 bg-muted/30 z-10 text-center">Montant</TableHead>
-                <TableHead className="sticky top-0 bg-muted/30 z-10 text-center">Total</TableHead>
-                <TableHead className="sticky top-0 bg-muted/30 z-10 text-center">H/C</TableHead>
-                <TableHead className="sticky top-0 bg-muted/30 z-10 text-center">Total H</TableHead>
-                <TableHead className="sticky top-0 bg-muted/30 z-10 text-center">Compétence</TableHead>
-                <TableHead className="sticky top-0 bg-muted/30 z-10 text-center">Début</TableHead>
-                <TableHead className="sticky top-0 bg-muted/30 z-10 text-center">Fin</TableHead>
-                <TableHead className="sticky top-0 bg-muted/30 z-10 text-center">Pause</TableHead>
-                <TableHead className="sticky top-0 bg-muted/30 z-10 text-center">Transport</TableHead>
-                <TableHead className="sticky top-0 bg-muted/30 z-10 text-center">Lieu</TableHead>
-                <TableHead className="sticky top-0 bg-muted/30 z-10 text-left">Adresse</TableHead>
-                <TableHead className="sticky top-0 bg-muted/30 z-10 text-center">Superviseur</TableHead>
-              </TableRow>
-            </TableHeader>
-            <TableBody>
+                </th>
+                <th className="bg-muted/30 h-10 px-2 text-center align-middle w-[110px]">Employeur</th>
+                <th className="bg-muted/30 h-10 px-2 text-center align-middle whitespace-nowrap">Nb</th>
+                <th className="bg-muted/30 h-10 px-2 text-center align-middle whitespace-nowrap">Montant</th>
+                <th className="bg-muted/30 h-10 px-2 text-center align-middle whitespace-nowrap">Total</th>
+                <th className="bg-muted/30 h-10 px-2 text-center align-middle whitespace-nowrap">H/C</th>
+                <th className="bg-muted/30 h-10 px-2 text-center align-middle whitespace-nowrap">Total H</th>
+                <th className="bg-muted/30 h-10 px-2 text-center align-middle w-[110px]">Compétence</th>
+                <th className="bg-muted/30 h-10 px-2 text-center align-middle whitespace-nowrap">Début</th>
+                <th className="bg-muted/30 h-10 px-2 text-center align-middle whitespace-nowrap">Fin</th>
+                <th className="bg-muted/30 h-10 px-2 text-center align-middle whitespace-nowrap">Pause</th>
+                <th className="bg-muted/30 h-10 px-2 text-center align-middle whitespace-nowrap">Transport</th>
+                <th className="bg-muted/30 h-10 px-2 text-center align-middle w-[100px]">Lieu</th>
+                <th className="bg-muted/30 h-10 px-2 text-left align-middle w-[160px]">Adresse</th>
+                <th className="bg-muted/30 h-10 px-2 text-center align-middle whitespace-nowrap">Superviseur</th>
+              </tr>
+            </thead>
+            <tbody className="[&_tr:last-child]:border-0">
               {filteredCachets.length === 0 ? (
-                <TableRow>
-                  <TableCell colSpan={15} className="text-center text-muted-foreground py-8">
+                <tr>
+                  <td colSpan={15} className="p-2 align-middle text-center text-muted-foreground py-8">
                     Aucun cachet trouvé
-                  </TableCell>
-                </TableRow>
+                  </td>
+                </tr>
               ) : (
                 filteredCachets.map((cachet) => (
-                  <TableRow key={cachet.id} className="group hover:bg-muted/20 h-14">
-                    <TableCell className="text-center whitespace-nowrap">{formatDate(cachet.dateEvenement)}</TableCell>
-                    <TableCell className="text-center whitespace-nowrap">{cachet.employeur}</TableCell>
-                    <TableCell className="text-center whitespace-nowrap">{cachet.nombreCachet}</TableCell>
-                    <TableCell className="text-center whitespace-nowrap">{cachet.montant.toFixed(2)} €</TableCell>
-                    <TableCell className="text-center whitespace-nowrap">{cachet.totalBrut.toFixed(2)} €</TableCell>
-                    <TableCell className="text-center whitespace-nowrap">{cachet.heureCachet}h</TableCell>
-                    <TableCell className="text-center whitespace-nowrap">{cachet.totalHeures}h</TableCell>
-                    <TableCell className="text-center whitespace-nowrap">
+                  <tr key={cachet.id} className="group hover:bg-muted/20 border-b transition-colors">
+                    <td className="p-2 align-middle text-center whitespace-nowrap py-4">{formatDate(cachet.dateEvenement)}</td>
+                    <td className="p-2 align-middle text-center w-[110px] py-4">{cachet.employeur}</td>
+                    <td className="p-2 align-middle text-center whitespace-nowrap py-4">{cachet.nombreCachet}</td>
+                    <td className="p-2 align-middle text-center whitespace-nowrap py-4">{cachet.montant.toFixed(2)} €</td>
+                    <td className="p-2 align-middle text-center whitespace-nowrap py-4">{cachet.totalBrut.toFixed(2)} €</td>
+                    <td className="p-2 align-middle text-center whitespace-nowrap py-4">{cachet.heureCachet}h</td>
+                    <td className="p-2 align-middle text-center whitespace-nowrap py-4">{cachet.totalHeures}h</td>
+                    <td className="p-2 align-middle text-center w-[110px] py-4">
                       <span className="text-muted-foreground text-sm">{cachet.competence}</span>
-                    </TableCell>
-                    <TableCell className="text-center whitespace-nowrap">{cachet.heureDebut}</TableCell>
-                    <TableCell className="text-center whitespace-nowrap">{cachet.heureFin}</TableCell>
-                    <TableCell className="text-center whitespace-nowrap">{cachet.tempsPause}h</TableCell>
-                    <TableCell className="text-center whitespace-nowrap">
+                    </td>
+                    <td className="p-2 align-middle text-center whitespace-nowrap py-4">{cachet.heureDebut}</td>
+                    <td className="p-2 align-middle text-center whitespace-nowrap py-4">{cachet.heureFin}</td>
+                    <td className="p-2 align-middle text-center whitespace-nowrap py-4">{cachet.tempsPause}h</td>
+                    <td className="p-2 align-middle text-center whitespace-nowrap py-4">
                       <span className="text-muted-foreground text-sm">{cachet.transport}</span>
-                    </TableCell>
-                    <TableCell className="text-center whitespace-nowrap">{cachet.lieu}</TableCell>
-                    <TableCell className="text-left max-w-[200px]">
+                    </td>
+                    <td className="p-2 align-middle text-center w-[100px] py-4">{cachet.lieu}</td>
+                    <td className="p-2 align-middle text-left w-[160px] py-4 leading-snug">
                       <span className="text-muted-foreground text-sm block">{cachet.adresse}</span>
-                    </TableCell>
-                    <TableCell className="text-center relative whitespace-nowrap">
+                    </td>
+                    <td className="p-2 align-middle text-center relative whitespace-nowrap py-4">
                       {cachet.superviseur}
                       
                       {/* Boutons flottants au survol avec effet de flou en dégradé */}
@@ -403,14 +934,14 @@ export function CachetsPage() {
                           Supprimer
                         </Button>
                       </div>
-                    </TableCell>
-                  </TableRow>
+                    </td>
+                  </tr>
                 ))
               )}
-            </TableBody>
-            <TableFooter>
-              <TableRow className="sticky bottom-0 bg-muted/50 hover:bg-muted/50">
-                <TableCell colSpan={15} className="py-4">
+            </tbody>
+            <tfoot className="sticky bottom-0 z-10 bg-background border-t font-medium [&>tr]:last:border-b-0">
+              <tr className="bg-muted/50 hover:bg-muted/50 border-b transition-colors">
+                <td colSpan={15} className="p-2 align-middle py-4">
                   <div className="flex flex-wrap items-center gap-6">
                     <div className="space-y-1">
                       <p className="text-xs uppercase tracking-wide text-muted-foreground">Total cachets</p>
@@ -425,10 +956,10 @@ export function CachetsPage() {
                       <p className="text-lg">{totals.totalBrut.toFixed(2)} €</p>
                     </div>
                   </div>
-                </TableCell>
-              </TableRow>
-            </TableFooter>
-          </Table>
+                </td>
+              </tr>
+            </tfoot>
+          </table>
         </div>
       </Card>
 

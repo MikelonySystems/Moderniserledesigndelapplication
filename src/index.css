@@ -99,6 +99,7 @@
     --font-weight-semibold: 600;
     --tracking-wide: .025em;
     --tracking-widest: .1em;
+    --leading-snug: 1.375;
     --radius-xs: .125rem;
     --radius-2xl: 1rem;
     --blur-md: 12px;
@@ -608,10 +609,6 @@
     margin-top: calc(var(--spacing) * 3);
   }
 
-  .mt-4 {
-    margin-top: calc(var(--spacing) * 4);
-  }
-
   .mt-6 {
     margin-top: calc(var(--spacing) * 6);
   }
@@ -682,18 +679,6 @@
 
   .table {
     display: table;
-  }
-
-  .table-caption {
-    display: table-caption;
-  }
-
-  .table-cell {
-    display: table-cell;
-  }
-
-  .table-row {
-    display: table-row;
   }
 
   .field-sizing-content {
@@ -849,6 +834,10 @@
     width: calc(var(--spacing) * 14);
   }
 
+  .w-32 {
+    width: calc(var(--spacing) * 32);
+  }
+
   .w-40 {
     width: calc(var(--spacing) * 40);
   }
@@ -859,6 +848,18 @@
 
   .w-72 {
     width: calc(var(--spacing) * 72);
+  }
+
+  .w-\[100px\] {
+    width: 100px;
+  }
+
+  .w-\[110px\] {
+    width: 110px;
+  }
+
+  .w-\[160px\] {
+    width: 160px;
   }
 
   .w-\[200px\] {
@@ -879,10 +880,6 @@
 
   .w-full {
     width: 100%;
-  }
-
-  .max-w-\[200px\] {
-    max-width: 200px;
   }
 
   .max-w-\[1400px\] {
@@ -1130,12 +1127,12 @@
     overflow: hidden;
   }
 
-  .overflow-hidden {
-    overflow: hidden;
+  .overflow-auto {
+    overflow: auto;
   }
 
-  .overflow-x-auto {
-    overflow-x: auto;
+  .overflow-hidden {
+    overflow: hidden;
   }
 
   .overflow-x-hidden {
@@ -1232,8 +1229,28 @@
     }
   }
 
+  .border-destructive\/20 {
+    border-color: var(--destructive);
+  }
+
+  @supports (color: color-mix(in lab, red, red)) {
+    .border-destructive\/20 {
+      border-color: color-mix(in oklab, var(--destructive) 20%, transparent);
+    }
+  }
+
   .border-input {
     border-color: var(--input);
+  }
+
+  .border-orange-500\/20 {
+    border-color: color-mix(in srgb, oklch(.705 .213 47.604) 20%, transparent);
+  }
+
+  @supports (color: color-mix(in lab, red, red)) {
+    .border-orange-500\/20 {
+      border-color: color-mix(in oklab, var(--color-orange-500) 20%, transparent);
+    }
   }
 
   .border-primary\/20 {
@@ -1258,6 +1275,16 @@
 
   .border-transparent {
     border-color: #0000;
+  }
+
+  .border-warning\/20 {
+    border-color: var(--warning);
+  }
+
+  @supports (color: color-mix(in lab, red, red)) {
+    .border-warning\/20 {
+      border-color: color-mix(in oklab, var(--warning) 20%, transparent);
+    }
   }
 
   .bg-\[\#5B5FED\] {
@@ -1386,6 +1413,16 @@
     }
   }
 
+  .bg-orange-500\/5 {
+    background-color: color-mix(in srgb, oklch(.705 .213 47.604) 5%, transparent);
+  }
+
+  @supports (color: color-mix(in lab, red, red)) {
+    .bg-orange-500\/5 {
+      background-color: color-mix(in oklab, var(--color-orange-500) 5%, transparent);
+    }
+  }
+
   .bg-popover {
     background-color: var(--popover);
   }
@@ -1440,6 +1477,16 @@
 
   .bg-transparent {
     background-color: #0000;
+  }
+
+  .bg-warning\/5 {
+    background-color: var(--warning);
+  }
+
+  @supports (color: color-mix(in lab, red, red)) {
+    .bg-warning\/5 {
+      background-color: color-mix(in oklab, var(--warning) 5%, transparent);
+    }
   }
 
   .bg-warning\/10 {
@@ -1672,6 +1719,11 @@
   .leading-none {
     --tw-leading: 1;
     line-height: 1;
+  }
+
+  .leading-snug {
+    --tw-leading: var(--leading-snug);
+    line-height: var(--leading-snug);
   }
 
   .font-medium {
@@ -2421,10 +2473,6 @@
     --tw-enter-scale: .95;
   }
 
-  .data-\[state\=selected\]\:bg-muted[data-state="selected"] {
-    background-color: var(--muted);
-  }
-
   .data-\[state\=unchecked\]\:translate-x-0[data-state="unchecked"] {
     --tw-translate-x: calc(var(--spacing) * 0);
     translate: var(--tw-translate-x) var(--tw-translate-y);
@@ -2735,10 +2783,6 @@
     border-bottom-right-radius: calc(var(--radius)  - 2px);
   }
 
-  .\[\&\:has\(\[role\=checkbox\]\)\]\:pr-0:has([role="checkbox"]) {
-    padding-right: calc(var(--spacing) * 0);
-  }
-
   .\[\.border-b\]\:pb-6.border-b {
     padding-bottom: calc(var(--spacing) * 6);
   }
@@ -2761,11 +2805,6 @@
 
   .\[\&\:last-child\]\:pb-6:last-child {
     padding-bottom: calc(var(--spacing) * 6);
-  }
-
-  .\[\&\>\[role\=checkbox\]\]\:translate-y-\[2px\] > [role="checkbox"] {
-    --tw-translate-y: 2px;
-    translate: var(--tw-translate-x) var(--tw-translate-y);
   }
 
   .\[\&\>svg\]\:pointer-events-none > svg {

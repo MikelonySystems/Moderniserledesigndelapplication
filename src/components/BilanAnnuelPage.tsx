@@ -63,10 +63,43 @@ const BAREME_KM = {
   "20001+": 0.370,
 };
 
+// Barème de l'impôt sur le revenu 2025 (pour 1 part fiscale)
+const BAREME_IMPOT = [
+  { max: 11294, taux: 0 },
+  { max: 28797, taux: 0.11 },
+  { max: 82341, taux: 0.30 },
+  { max: 177106, taux: 0.41 },
+  { max: Infinity, taux: 0.45 },
+];
+
+// Fonction de calcul de l'impôt sur le revenu
+const calculerImpot = (revenuImposable: number, nbParts: number = 1): number => {
+  const quotientFamilial = revenuImposable / nbParts;
+  let impotParPart = 0;
+  let revenusRestants = quotientFamilial;
+  let seuilPrecedent = 0;
+
+  for (const tranche of BAREME_IMPOT) {
+    const plafondTranche = tranche.max;
+    const montantTranche = Math.min(revenusRestants, plafondTranche - seuilPrecedent);
+    
+    if (montantTranche <= 0) break;
+    
+    impotParPart += montantTranche * tranche.taux;
+    revenusRestants -= montantTranche;
+    seuilPrecedent = plafondTranche;
+    
+    if (revenusRestants <= 0) break;
+  }
+
+  return impotParPart * nbParts;
+};
+
 export function BilanAnnuelPage() {
   const [annee, setAnnee] = useState("2025");
   const [utiliseFraisReels, setUtiliseFraisReels] = useState(false);
   const [kmPersonnalises, setKmPersonnalises] = useState<number | null>(null);
+  const [nbPartsFiscales, setNbPartsFiscales] = useState(1);
 
   // Récupération des données pour l'année sélectionnée
   const revenus = mockRevenusData[annee as keyof typeof mockRevenusData] || mockRevenusData["2025"];
@@ -100,6 +133,11 @@ export function BilanAnnuelPage() {
   // Calcul cotisations sociales (estimation)
   const tauxCotisationsSociales = 0.22; // 22% en moyenne pour intermittent
   const cotisationsSociales = totalRevenusSalaires * tauxCotisationsSociales;
+
+  // Calcul de l'impôt sur le revenu
+  const impotSurLeRevenu = calculerImpot(revenuNetImposable, nbPartsFiscales);
+  const prelevementMensuel = impotSurLeRevenu / 12;
+  const montantSur4Mois = impotSurLeRevenu / 4;
 
   return (
     <div className="space-y-6 p-6">
@@ -369,6 +407,87 @@ export function BilanAnnuelPage() {
                   {totalFraisReels > abattement10Pourcent ? "Frais réels" : "Abattement 10%"}
                 </span>
                 {" "}(différence de {Math.abs(totalFraisReels - abattement10Pourcent).toFixed(2)} €)
+              </p>
+            </div>
+          </div>
+        </div>
+      </Card>
+
+      {/* Section estimation de l'impôt sur le revenu */}
+      <Card className="p-6 border-border/40 shadow-sm">
+        <div className="flex items-center gap-2 mb-4">
+          <Calculator className="h-5 w-5 text-primary" />
+          <h2 className="text-lg">Estimation de l'impôt sur le revenu</h2>
+        </div>
+
+        {/* Sélecteur nombre de parts fiscales */}
+        <div className="bg-muted/30 p-4 rounded-lg mb-6">
+          <div className="flex items-center justify-between">
+            <div>
+              <Label htmlFor="nb-parts">Nombre de parts fiscales</Label>
+              <p className="text-sm text-muted-foreground mt-1">
+                {nbPartsFiscales === 1 && "Célibataire sans enfant"}
+                {nbPartsFiscales === 1.5 && "Célibataire avec 1 enfant"}
+                {nbPartsFiscales === 2 && "Couple sans enfant"}
+                {nbPartsFiscales === 2.5 && "Couple avec 1 enfant"}
+                {nbPartsFiscales === 3 && "Couple avec 2 enfants"}
+              </p>
+            </div>
+            <div className="w-32">
+              <Select value={nbPartsFiscales.toString()} onValueChange={(v) => setNbPartsFiscales(parseFloat(v))}>
+                <SelectTrigger id="nb-parts">
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="1">1 part</SelectItem>
+                  <SelectItem value="1.5">1,5 parts</SelectItem>
+                  <SelectItem value="2">2 parts</SelectItem>
+                  <SelectItem value="2.5">2,5 parts</SelectItem>
+                  <SelectItem value="3">3 parts</SelectItem>
+                  <SelectItem value="3.5">3,5 parts</SelectItem>
+                  <SelectItem value="4">4 parts</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+          </div>
+        </div>
+
+        {/* Calculs */}
+        <div className="space-y-4">
+          <div className="bg-primary/5 border border-primary/20 p-4 rounded-lg">
+            <p className="text-sm text-muted-foreground mb-2">Revenu net imposable</p>
+            <p className="text-2xl text-primary">{revenuNetImposable.toFixed(2)} €</p>
+            <p className="text-xs text-muted-foreground mt-1">
+              Quotient familial : {(revenuNetImposable / nbPartsFiscales).toFixed(2)} € / part
+            </p>
+          </div>
+
+          <div className="grid md:grid-cols-3 gap-4">
+            <div className="bg-destructive/5 border border-destructive/20 p-4 rounded-lg">
+              <p className="text-sm text-muted-foreground mb-2">Impôt total estimé</p>
+              <p className="text-2xl text-destructive">{impotSurLeRevenu.toFixed(2)} €</p>
+            </div>
+
+            <div className="bg-warning/5 border border-warning/20 p-4 rounded-lg">
+              <p className="text-sm text-muted-foreground mb-2">Prélèvement mensuel</p>
+              <p className="text-2xl text-warning">{prelevementMensuel.toFixed(2)} €</p>
+              <p className="text-xs text-muted-foreground mt-1">Sur 12 mois</p>
+            </div>
+
+            <div className="bg-orange-500/5 border border-orange-500/20 p-4 rounded-lg">
+              <p className="text-sm text-muted-foreground mb-2">Étalé sur 4 mois</p>
+              <p className="text-2xl text-orange-600">{montantSur4Mois.toFixed(2)} €</p>
+              <p className="text-xs text-muted-foreground mt-1">Par mois</p>
+            </div>
+          </div>
+
+          <div className="bg-muted/30 p-3 rounded-lg text-xs text-muted-foreground">
+            <div className="flex gap-2">
+              <AlertCircle className="h-4 w-4 shrink-0 mt-0.5" />
+              <p>
+                Cette estimation est calculée selon le barème 2025 de l'impôt sur le revenu.
+                Elle ne prend pas en compte les autres revenus éventuels, les crédits d'impôt,
+                ou les réductions fiscales. Le montant réel peut varier.
               </p>
             </div>
           </div>
