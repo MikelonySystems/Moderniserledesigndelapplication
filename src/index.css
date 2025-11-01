@@ -68,6 +68,7 @@
     --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
     --color-orange-500: oklch(.705 .213 47.604);
     --color-orange-600: oklch(.646 .222 41.116);
+    --color-green-600: oklch(.627 .194 149.214);
     --color-emerald-500: oklch(.696 .17 162.48);
     --color-emerald-600: oklch(.596 .145 163.225);
     --color-blue-500: oklch(.623 .214 259.815);
@@ -715,6 +716,10 @@
     height: calc(var(--spacing) * 2);
   }
 
+  .h-3 {
+    height: calc(var(--spacing) * 3);
+  }
+
   .h-3\.5 {
     height: calc(var(--spacing) * 3.5);
   }
@@ -795,8 +800,8 @@
     max-height: 300px;
   }
 
-  .max-h-\[calc\(90vh-180px\)\] {
-    max-height: calc(90vh - 180px);
+  .max-h-\[calc\(90vh-240px\)\] {
+    max-height: calc(90vh - 240px);
   }
 
   .min-h-0 {
@@ -809,6 +814,10 @@
 
   .w-2 {
     width: calc(var(--spacing) * 2);
+  }
+
+  .w-3 {
+    width: calc(var(--spacing) * 3);
   }
 
   .w-3\.5 {
@@ -1380,6 +1389,10 @@
     .bg-destructive\/10 {
       background-color: color-mix(in oklab, var(--destructive) 10%, transparent);
     }
+  }
+
+  .bg-green-600 {
+    background-color: var(--color-green-600);
   }
 
   .bg-input-background {
