@@ -68,13 +68,16 @@
     --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
     --color-orange-500: oklch(.705 .213 47.604);
     --color-orange-600: oklch(.646 .222 41.116);
+    --color-yellow-600: oklch(.681 .162 75.834);
     --color-green-600: oklch(.627 .194 149.214);
     --color-emerald-500: oklch(.696 .17 162.48);
     --color-emerald-600: oklch(.596 .145 163.225);
+    --color-cyan-600: oklch(.609 .126 221.723);
     --color-blue-500: oklch(.623 .214 259.815);
     --color-blue-600: oklch(.546 .245 262.881);
     --color-purple-500: oklch(.627 .265 303.9);
     --color-purple-600: oklch(.558 .288 302.321);
+    --color-pink-600: oklch(.592 .249 .584);
     --color-black: #000;
     --color-white: #fff;
     --spacing: .25rem;
@@ -563,6 +566,10 @@
     z-index: 50;
   }
 
+  .col-span-2 {
+    grid-column: span 2 / span 2;
+  }
+
   .col-start-2 {
     grid-column-start: 2;
   }
@@ -613,6 +620,10 @@
 
   .mt-6 {
     margin-top: calc(var(--spacing) * 6);
+  }
+
+  .mt-8 {
+    margin-top: calc(var(--spacing) * 8);
   }
 
   .mr-1\.5 {
@@ -898,6 +909,10 @@
 
   .w-full {
     width: 100%;
+  }
+
+  .max-w-\[1200px\] {
+    max-width: 1200px;
   }
 
   .max-w-\[1400px\] {
@@ -1359,12 +1374,42 @@
     }
   }
 
+  .bg-blue-600\/10 {
+    background-color: color-mix(in srgb, oklch(.546 .245 262.881) 10%, transparent);
+  }
+
+  @supports (color: color-mix(in lab, red, red)) {
+    .bg-blue-600\/10 {
+      background-color: color-mix(in oklab, var(--color-blue-600) 10%, transparent);
+    }
+  }
+
   .bg-border {
     background-color: var(--border);
   }
 
   .bg-card {
     background-color: var(--card);
+  }
+
+  .bg-card\/50 {
+    background-color: var(--card);
+  }
+
+  @supports (color: color-mix(in lab, red, red)) {
+    .bg-card\/50 {
+      background-color: color-mix(in oklab, var(--card) 50%, transparent);
+    }
+  }
+
+  .bg-cyan-600\/10 {
+    background-color: color-mix(in srgb, oklch(.609 .126 221.723) 10%, transparent);
+  }
+
+  @supports (color: color-mix(in lab, red, red)) {
+    .bg-cyan-600\/10 {
+      background-color: color-mix(in oklab, var(--color-cyan-600) 10%, transparent);
+    }
   }
 
   .bg-destructive {
@@ -1391,8 +1436,28 @@
     }
   }
 
+  .bg-emerald-600\/10 {
+    background-color: color-mix(in srgb, oklch(.596 .145 163.225) 10%, transparent);
+  }
+
+  @supports (color: color-mix(in lab, red, red)) {
+    .bg-emerald-600\/10 {
+      background-color: color-mix(in oklab, var(--color-emerald-600) 10%, transparent);
+    }
+  }
+
   .bg-green-600 {
     background-color: var(--color-green-600);
+  }
+
+  .bg-green-600\/10 {
+    background-color: color-mix(in srgb, oklch(.627 .194 149.214) 10%, transparent);
+  }
+
+  @supports (color: color-mix(in lab, red, red)) {
+    .bg-green-600\/10 {
+      background-color: color-mix(in oklab, var(--color-green-600) 10%, transparent);
+    }
   }
 
   .bg-input-background {
@@ -1449,6 +1514,26 @@
     }
   }
 
+  .bg-orange-600\/10 {
+    background-color: color-mix(in srgb, oklch(.646 .222 41.116) 10%, transparent);
+  }
+
+  @supports (color: color-mix(in lab, red, red)) {
+    .bg-orange-600\/10 {
+      background-color: color-mix(in oklab, var(--color-orange-600) 10%, transparent);
+    }
+  }
+
+  .bg-pink-600\/10 {
+    background-color: color-mix(in srgb, oklch(.592 .249 .584) 10%, transparent);
+  }
+
+  @supports (color: color-mix(in lab, red, red)) {
+    .bg-pink-600\/10 {
+      background-color: color-mix(in oklab, var(--color-pink-600) 10%, transparent);
+    }
+  }
+
   .bg-popover {
     background-color: var(--popover);
   }
@@ -1487,6 +1572,16 @@
     }
   }
 
+  .bg-purple-600\/10 {
+    background-color: color-mix(in srgb, oklch(.558 .288 302.321) 10%, transparent);
+  }
+
+  @supports (color: color-mix(in lab, red, red)) {
+    .bg-purple-600\/10 {
+      background-color: color-mix(in oklab, var(--color-purple-600) 10%, transparent);
+    }
+  }
+
   .bg-secondary {
     background-color: var(--secondary);
   }
@@ -1522,6 +1617,16 @@
   @supports (color: color-mix(in lab, red, red)) {
     .bg-warning\/10 {
       background-color: color-mix(in oklab, var(--warning) 10%, transparent);
+    }
+  }
+
+  .bg-yellow-600\/10 {
+    background-color: color-mix(in srgb, oklch(.681 .162 75.834) 10%, transparent);
+  }
+
+  @supports (color: color-mix(in lab, red, red)) {
+    .bg-yellow-600\/10 {
+      background-color: color-mix(in oklab, var(--color-yellow-600) 10%, transparent);
     }
   }
 
@@ -1690,6 +1795,10 @@
     padding-bottom: calc(var(--spacing) * 6);
   }
 
+  .pb-8 {
+    padding-bottom: calc(var(--spacing) * 8);
+  }
+
   .pl-2 {
     padding-left: calc(var(--spacing) * 2);
   }
@@ -1801,6 +1910,10 @@
     color: var(--card-foreground);
   }
 
+  .text-cyan-600 {
+    color: var(--color-cyan-600);
+  }
+
   .text-destructive {
     color: var(--destructive);
   }
@@ -1813,12 +1926,20 @@
     color: var(--foreground);
   }
 
+  .text-green-600 {
+    color: var(--color-green-600);
+  }
+
   .text-muted-foreground {
     color: var(--muted-foreground);
   }
 
   .text-orange-600 {
     color: var(--color-orange-600);
+  }
+
+  .text-pink-600 {
+    color: var(--color-pink-600);
   }
 
   .text-popover-foreground {
@@ -1831,6 +1952,10 @@
 
   .text-primary-foreground {
     color: var(--primary-foreground);
+  }
+
+  .text-purple-600 {
+    color: var(--color-purple-600);
   }
 
   .text-secondary-foreground {
@@ -1847,6 +1972,10 @@
 
   .text-white {
     color: var(--color-white);
+  }
+
+  .text-yellow-600 {
+    color: var(--color-yellow-600);
   }
 
   .uppercase {
@@ -1916,6 +2045,12 @@
 
   .filter {
     filter: var(--tw-blur, ) var(--tw-brightness, ) var(--tw-contrast, ) var(--tw-grayscale, ) var(--tw-hue-rotate, ) var(--tw-invert, ) var(--tw-saturate, ) var(--tw-sepia, ) var(--tw-drop-shadow, );
+  }
+
+  .backdrop-blur {
+    --tw-backdrop-blur: blur(8px);
+    -webkit-backdrop-filter: var(--tw-backdrop-blur, ) var(--tw-backdrop-brightness, ) var(--tw-backdrop-contrast, ) var(--tw-backdrop-grayscale, ) var(--tw-backdrop-hue-rotate, ) var(--tw-backdrop-invert, ) var(--tw-backdrop-opacity, ) var(--tw-backdrop-saturate, ) var(--tw-backdrop-sepia, );
+    backdrop-filter: var(--tw-backdrop-blur, ) var(--tw-backdrop-brightness, ) var(--tw-backdrop-contrast, ) var(--tw-backdrop-grayscale, ) var(--tw-backdrop-hue-rotate, ) var(--tw-backdrop-invert, ) var(--tw-backdrop-opacity, ) var(--tw-backdrop-saturate, ) var(--tw-backdrop-sepia, );
   }
 
   .backdrop-blur-md {
