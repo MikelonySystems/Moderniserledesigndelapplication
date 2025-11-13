@@ -119,102 +119,185 @@ function Combobox({ id, value, onValueChange, options, placeholder, searchPlaceh
 }
 
 export function AddRevenuDialog({ open, onOpenChange }: AddRevenuDialogProps) {
-  const [verseur, setVerseur] = useState("");
+  const [date, setDate] = useState("");
+  const [employeur, setEmployeur] = useState("");
+  const [typeRevenu, setTypeRevenu] = useState("Cachet");
+  const [montantBrut, setMontantBrut] = useState("");
+  const [montantNet, setMontantNet] = useState("");
+  const [categorie, setCategorie] = useState("Spectacle vivant");
+  const [statut, setStatut] = useState("En attente");
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+
+    if (!date || !employeur || !montantBrut || !montantNet) {
+      toast.error("Veuillez remplir tous les champs obligatoires");
+      return;
+    }
+
+    // TODO: Sauvegarder le revenu
+    toast.success("Revenu ajouté avec succès");
+    
+    // Reset form
+    setDate("");
+    setEmployeur("");
+    setTypeRevenu("Cachet");
+    setMontantBrut("");
+    setMontantNet("");
+    setCategorie("Spectacle vivant");
+    setStatut("En attente");
+    
+    onOpenChange(false);
+  };
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="sm:max-w-[650px]">
+      <DialogContent className="sm:max-w-[600px] max-h-[90vh] overflow-y-auto">
         <DialogHeader>
           <DialogTitle>Ajouter un revenu</DialogTitle>
           <DialogDescription>
-            Enregistrez un versement de revenu
+            Enregistrez un nouveau revenu professionnel
           </DialogDescription>
         </DialogHeader>
         
-        <div className="grid gap-5 py-4">
-          {/* Type de revenu et Verseur */}
+        <form onSubmit={handleSubmit} className="space-y-4">
+          {/* Date */}
+          <div className="space-y-2">
+            <Label htmlFor="date">Date *</Label>
+            <Input 
+              id="date" 
+              type="date" 
+              value={date}
+              onChange={(e) => setDate(e.target.value)}
+            />
+          </div>
+
+          {/* Type de revenu et Catégorie */}
           <div className="grid grid-cols-2 gap-4">
             <div className="space-y-2">
-              <Label htmlFor="type">Type de revenu</Label>
-              <Select>
-                <SelectTrigger id="type">
-                  <SelectValue placeholder="Sélectionner" />
+              <Label htmlFor="typeRevenu">Type de revenu *</Label>
+              <Select value={typeRevenu} onValueChange={setTypeRevenu}>
+                <SelectTrigger id="typeRevenu">
+                  <SelectValue />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="salaire">Salaire</SelectItem>
-                  <SelectItem value="allocation">Allocation chômage</SelectItem>
-                  <SelectItem value="prime">Prime</SelectItem>
-                  <SelectItem value="autre">Autre</SelectItem>
+                  <SelectItem value="Cachet">Cachet</SelectItem>
+                  <SelectItem value="ARE">ARE (Allocation chômage)</SelectItem>
+                  <SelectItem value="AEM">AEM</SelectItem>
+                  <SelectItem value="Prime">Prime</SelectItem>
                 </SelectContent>
               </Select>
             </div>
             
             <div className="space-y-2">
-              <Label htmlFor="verseur">Verseur</Label>
-              <Combobox
-                id="verseur"
-                value={verseur}
-                onValueChange={setVerseur}
-                options={mockVerseurs}
-                placeholder="Sélectionner ou saisir un verseur"
-                searchPlaceholder="Rechercher un verseur..."
+              <Label htmlFor="categorie">Catégorie</Label>
+              <Select value={categorie} onValueChange={setCategorie}>
+                <SelectTrigger id="categorie">
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="Spectacle vivant">Spectacle vivant</SelectItem>
+                  <SelectItem value="Indemnités">Indemnités</SelectItem>
+                  <SelectItem value="Audiovisuel">Audiovisuel</SelectItem>
+                  <SelectItem value="Autre">Autre</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+          </div>
+
+          {/* Employeur */}
+          <div className="space-y-2">
+            <Label htmlFor="employeur">Employeur / Verseur *</Label>
+            <Combobox
+              id="employeur"
+              value={employeur}
+              onValueChange={setEmployeur}
+              options={mockVerseurs}
+              placeholder="Sélectionner ou saisir un employeur"
+              searchPlaceholder="Rechercher un employeur..."
+            />
+          </div>
+
+          {/* Montants */}
+          <div className="grid grid-cols-2 gap-4">
+            <div className="space-y-2">
+              <Label htmlFor="montantBrut">Montant brut (€) *</Label>
+              <Input 
+                id="montantBrut" 
+                type="number" 
+                step="0.01" 
+                placeholder="850.00"
+                value={montantBrut}
+                onChange={(e) => setMontantBrut(e.target.value)}
+              />
+            </div>
+            
+            <div className="space-y-2">
+              <Label htmlFor="montantNet">Montant net (€) *</Label>
+              <Input 
+                id="montantNet" 
+                type="number" 
+                step="0.01" 
+                placeholder="672.50"
+                value={montantNet}
+                onChange={(e) => setMontantNet(e.target.value)}
               />
             </div>
           </div>
 
-          {/* Date de versement et Pour le mois de */}
-          <div className="grid grid-cols-2 gap-4">
-            <div className="space-y-2">
-              <Label htmlFor="date">Date de versement</Label>
-              <Input id="date" type="date" />
-            </div>
-            
-            <div className="space-y-2">
-              <Label htmlFor="mois">Pour le mois de</Label>
-              <Input id="mois" type="month" />
-            </div>
-          </div>
-
-          {/* Brut, Net à payer, Net imposable */}
-          <div className="grid grid-cols-3 gap-4">
-            <div className="space-y-2">
-              <Label htmlFor="brut">Brut (€)</Label>
-              <Input id="brut" type="number" step="0.01" placeholder="0.00" />
-            </div>
-            
-            <div className="space-y-2">
-              <Label htmlFor="netpayer">Net à payer (€)</Label>
-              <Input id="netpayer" type="number" step="0.01" placeholder="0.00" />
-            </div>
-            
-            <div className="space-y-2">
-              <Label htmlFor="netimposable">Net imposable (€)</Label>
-              <Input id="netimposable" type="number" step="0.01" placeholder="0.00" />
-            </div>
-          </div>
-
-          {/* Heures supplémentaires exonérées */}
+          {/* Statut */}
           <div className="space-y-2">
-            <Label htmlFor="heuresexo">Heures supplémentaires exonérées (€)</Label>
-            <Input id="heuresexo" type="number" step="0.01" placeholder="0.00" />
+            <Label htmlFor="statut">Statut</Label>
+            <Select value={statut} onValueChange={setStatut}>
+              <SelectTrigger id="statut">
+                <SelectValue />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="Reçu">Reçu</SelectItem>
+                <SelectItem value="En attente">En attente</SelectItem>
+                <SelectItem value="Annulé">Annulé</SelectItem>
+              </SelectContent>
+            </Select>
           </div>
-        </div>
 
-        <div className="flex justify-end gap-3 pt-4">
-          <Button variant="outline" onClick={() => onOpenChange(false)}>
-            Annuler
-          </Button>
-          <Button
-            className="bg-gradient-to-br from-primary to-purple-600 hover:opacity-90"
-            onClick={() => {
-              // TODO: Logique de sauvegarde
-              toast.success('Revenu ajouté avec succès !');
-              onOpenChange(false);
-            }}
-          >
-            Enregistrer
-          </Button>
-        </div>
+          {/* Récapitulatif */}
+          {montantBrut && montantNet && (
+            <div className="p-4 bg-muted/30 rounded-lg space-y-2">
+              <div className="flex items-center justify-between">
+                <span className="text-sm text-muted-foreground">Montant brut</span>
+                <span>{parseFloat(montantBrut).toFixed(2)} €</span>
+              </div>
+              <div className="flex items-center justify-between">
+                <span className="text-sm text-muted-foreground">Montant net</span>
+                <span>{parseFloat(montantNet).toFixed(2)} €</span>
+              </div>
+              <div className="h-px bg-border my-2" />
+              <div className="flex items-center justify-between">
+                <span className="text-sm text-muted-foreground">Charges</span>
+                <span className="text-sm text-red-600">
+                  -{(parseFloat(montantBrut) - parseFloat(montantNet)).toFixed(2)} €
+                </span>
+              </div>
+            </div>
+          )}
+
+          {/* Actions */}
+          <div className="flex gap-2 justify-end pt-4">
+            <Button
+              type="button"
+              variant="outline"
+              onClick={() => onOpenChange(false)}
+            >
+              Annuler
+            </Button>
+            <Button
+              type="submit"
+              className="bg-gradient-to-br from-primary to-purple-600"
+            >
+              Enregistrer
+            </Button>
+          </div>
+        </form>
       </DialogContent>
     </Dialog>
   );

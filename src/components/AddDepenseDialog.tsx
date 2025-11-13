@@ -18,8 +18,12 @@ interface AddDepenseDialogProps {
 
 // Données simulées de la base de données
 const mockTypesDepense = [
-  "Transport",
-  "Matériel",
+  "Transports",
+  "Vêtements et accessoire",
+  "Outillage",
+  "Intérêt de crédit",
+  "Parking",
+  "Frais d'autoroute",
   "Formation",
   "Repas",
   "Hébergement",
@@ -206,6 +210,20 @@ export function AddDepenseDialog({ open, onOpenChange }: AddDepenseDialogProps) 
               className="resize-none"
               rows={3}
             />
+          </div>
+
+          {/* Justificatif */}
+          <div className="space-y-2">
+            <Label htmlFor="justificatif">Justificatif</Label>
+            <Select defaultValue="oui">
+              <SelectTrigger id="justificatif">
+                <SelectValue />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="oui">Oui</SelectItem>
+                <SelectItem value="non">Non</SelectItem>
+              </SelectContent>
+            </Select>
           </div>
         </div>
 

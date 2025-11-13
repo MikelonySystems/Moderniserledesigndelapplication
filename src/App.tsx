@@ -7,6 +7,10 @@ import { InfoCard } from "./components/InfoCard";
 import { FloatingMenu } from "./components/FloatingMenu";
 import { FloatingHeader } from "./components/FloatingHeader";
 import { CachetsPage } from "./components/CachetsPage";
+import { DepensesPage } from "./components/DepensesPage";
+import { TrajetsPage } from "./components/TrajetsPage";
+import { AemPage } from "./components/AemPage";
+import { RevenuPage } from "./components/RevenuPage";
 import { BilanAnnuelPage } from "./components/BilanAnnuelPage";
 import { PreferencesPage } from "./components/PreferencesPage";
 import { Toaster } from "./components/ui/sonner";
@@ -101,6 +105,22 @@ export default function App() {
             <div className="max-w-[1800px] mx-auto h-full">
               <CachetsPage />
             </div>
+          ) : currentPage === "depenses" ? (
+            <div className="max-w-[1800px] mx-auto h-full">
+              <DepensesPage />
+            </div>
+          ) : currentPage === "trajets" ? (
+            <div className="max-w-[1800px] mx-auto h-full">
+              <TrajetsPage />
+            </div>
+          ) : currentPage === "aem" ? (
+            <div className="max-w-[1800px] mx-auto h-full">
+              <AemPage />
+            </div>
+          ) : currentPage === "revenus" ? (
+            <div className="max-w-[1800px] mx-auto h-full">
+              <RevenuPage />
+            </div>
           ) : currentPage === "bilan" ? (
             <div className="max-w-[1400px] mx-auto h-full overflow-y-auto">
               <BilanAnnuelPage />
@@ -119,5 +139,3 @@ export default function App() {
     </div>
   );
 }
-
-

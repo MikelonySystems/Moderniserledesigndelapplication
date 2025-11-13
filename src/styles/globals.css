@@ -195,3 +195,9 @@
 html {
   font-size: var(--font-size);
 }
+
+/* Calendrier agrandi pour les vues Cachets et Trajets */
+.calendar-large {
+  transform: scale(1.6);
+  transform-origin: center;
+}
