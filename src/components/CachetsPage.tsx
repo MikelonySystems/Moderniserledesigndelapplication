@@ -280,12 +280,12 @@ export function CachetsPage() {
     return acc;
   }, {} as Record<string, typeof cachetsMockData>);
 
-  // Dates avec des cachets (pour le calendrier)
-  const datesWithCachets = cachets.map(c => new Date(c.dateEvenement));
+  // Dates avec des cachets (pour le calendrier) - prend en compte les filtres
+  const datesWithCachets = filteredCachets.map(c => new Date(c.dateEvenement));
 
-  // Cachets pour la date sélectionnée
+  // Cachets pour la date sélectionnée - prend en compte les filtres
   const cachetsForSelectedDate = selectedDate 
-    ? cachets.filter(c => isSameDay(new Date(c.dateEvenement), selectedDate))
+    ? filteredCachets.filter(c => isSameDay(new Date(c.dateEvenement), selectedDate))
     : [];
 
   // Calculs

@@ -54,6 +54,7 @@ const aemMockData = [
     dateFin: "2025-09-30",
     employeur: "Théâtre National de Paris",
     nombreJours: 12,
+    nombreHeures: 96,
     salaireBrut: 1847.20,
     numeroAttestation: "AEM2025-091501",
     justificatif: true,
@@ -64,6 +65,7 @@ const aemMockData = [
     dateFin: "2025-08-31",
     employeur: "Opéra Bastille",
     nombreJours: 8,
+    nombreHeures: 64,
     salaireBrut: 1231.50,
     numeroAttestation: "AEM2025-081001",
     justificatif: true,
@@ -74,6 +76,7 @@ const aemMockData = [
     dateFin: "2025-07-31",
     employeur: "Festival d'Avignon",
     nombreJours: 15,
+    nombreHeures: 120,
     salaireBrut: 2309.80,
     numeroAttestation: "AEM2025-072201",
     justificatif: false,
@@ -84,6 +87,7 @@ const aemMockData = [
     dateFin: "2025-06-30",
     employeur: "Zénith Paris",
     nombreJours: 10,
+    nombreHeures: 80,
     salaireBrut: 1539.00,
     numeroAttestation: "AEM2025-060501",
     justificatif: true,
@@ -94,6 +98,7 @@ const aemMockData = [
     dateFin: "2025-05-31",
     employeur: "Olympia",
     nombreJours: 6,
+    nombreHeures: 48,
     salaireBrut: 923.40,
     numeroAttestation: "AEM2025-051801",
     justificatif: true,
@@ -104,6 +109,7 @@ const aemMockData = [
     dateFin: "2025-11-30",
     employeur: "Philharmonie de Paris",
     nombreJours: 14,
+    nombreHeures: 112,
     salaireBrut: 2155.60,
     numeroAttestation: "AEM2025-110201",
     justificatif: false,
@@ -114,6 +120,7 @@ const aemMockData = [
     dateFin: "2025-10-31",
     employeur: "Bataclan",
     nombreJours: 9,
+    nombreHeures: 72,
     salaireBrut: 1385.40,
     numeroAttestation: "AEM2025-101201",
     justificatif: true,
@@ -124,6 +131,7 @@ const aemMockData = [
     dateFin: "2025-04-30",
     employeur: "Comédie Française",
     nombreJours: 11,
+    nombreHeures: 88,
     salaireBrut: 1693.30,
     numeroAttestation: "AEM2025-040801",
     justificatif: true,
@@ -134,6 +142,7 @@ const aemMockData = [
     dateFin: "2025-03-31",
     employeur: "Théâtre du Châtelet",
     nombreJours: 7,
+    nombreHeures: 56,
     salaireBrut: 1077.90,
     numeroAttestation: "AEM2025-032001",
     justificatif: false,
@@ -202,9 +211,10 @@ export function AemPage() {
     (acc, aem) => ({
       totalAttestations: acc.totalAttestations + 1,
       totalJours: acc.totalJours + aem.nombreJours,
+      totalHeures: acc.totalHeures + aem.nombreHeures,
       totalSalaire: acc.totalSalaire + aem.salaireBrut,
     }),
-    { totalAttestations: 0, totalJours: 0, totalSalaire: 0 }
+    { totalAttestations: 0, totalJours: 0, totalHeures: 0, totalSalaire: 0 }
   );
 
   // Données pour le graphique
@@ -256,7 +266,7 @@ export function AemPage() {
             <div>
               <h1 className="text-2xl">Mes AEM</h1>
               <p className="text-sm text-muted-foreground">
-                {filteredAems.length} attestation{filteredAems.length > 1 ? 's' : ''} • {totals.totalJours} jour{totals.totalJours > 1 ? 's' : ''}
+                {filteredAems.length} attestation{filteredAems.length > 1 ? 's' : ''} • {totals.totalHeures} heure{totals.totalHeures > 1 ? 's' : ''}
               </p>
             </div>
           </div>
@@ -291,8 +301,8 @@ export function AemPage() {
               <Clock className="w-4 h-4 text-teal-600" />
             </div>
             <div>
-              <p className="text-xs text-muted-foreground">Total jours</p>
-              <p className="text-lg">{totals.totalJours}</p>
+              <p className="text-xs text-muted-foreground">Total heures</p>
+              <p className="text-lg">{totals.totalHeures}h</p>
             </div>
           </div>
         </Card>
@@ -404,8 +414,9 @@ export function AemPage() {
                 {Object.entries(groupedByMonth).map(([month, monthAems], monthIndex) => {
                   const monthTotals = monthAems.reduce((acc, a) => ({
                     jours: acc.jours + a.nombreJours,
+                    heures: acc.heures + a.nombreHeures,
                     salaire: acc.salaire + a.salaireBrut
-                  }), { jours: 0, salaire: 0 });
+                  }), { jours: 0, heures: 0, salaire: 0 });
 
                   return (
                     <motion.div
@@ -426,7 +437,7 @@ export function AemPage() {
                             <h3 className="capitalize text-emerald-700">{month}</h3>
                             <div className="w-px h-4 bg-emerald-500/20" />
                             <span className="text-xs text-muted-foreground">
-                              {monthAems.length} attestation{monthAems.length > 1 ? 's' : ''} • {monthTotals.jours}j • {monthTotals.salaire.toFixed(2)} €
+                              {monthAems.length} attestation{monthAems.length > 1 ? 's' : ''} • {monthTotals.heures}h • {monthTotals.salaire.toFixed(2)} €
                             </span>
                           </div>
                         </div>
@@ -493,14 +504,18 @@ export function AemPage() {
                                     </div>
                                   </div>
 
-                                  <div className="grid grid-cols-3 gap-4 p-3 bg-muted/20 rounded-lg mb-3">
+                                  <div className="grid grid-cols-4 gap-3 p-3 bg-muted/20 rounded-lg mb-3">
                                     <div>
                                       <p className="text-xs text-muted-foreground mb-1">Période</p>
                                       <p className="text-sm">{formatMonth(aem.dateDebut)}</p>
                                     </div>
                                     <div>
-                                      <p className="text-xs text-muted-foreground mb-1">Jours travaillés</p>
-                                      <p className="text-sm">{aem.nombreJours} jour{aem.nombreJours > 1 ? 's' : ''}</p>
+                                      <p className="text-xs text-muted-foreground mb-1">Jours</p>
+                                      <p className="text-sm">{aem.nombreJours}j</p>
+                                    </div>
+                                    <div>
+                                      <p className="text-xs text-muted-foreground mb-1">Heures</p>
+                                      <p className="text-sm">{aem.nombreHeures}h</p>
                                     </div>
                                     <div>
                                       <p className="text-xs text-muted-foreground mb-1">Salaire brut</p>
@@ -510,7 +525,7 @@ export function AemPage() {
 
                                   <div className="flex items-center justify-between text-xs text-muted-foreground">
                                     <span>Du {formatDate(aem.dateDebut)} au {formatDate(aem.dateFin)}</span>
-                                    <span>Salaire journalier moyen : {(aem.salaireBrut / aem.nombreJours).toFixed(2)} €</span>
+                                    <span>Taux horaire : {(aem.salaireBrut / aem.nombreHeures).toFixed(2)} €/h</span>
                                   </div>
                                 </div>
                               </Card>
@@ -619,9 +634,9 @@ export function AemPage() {
                     <th className="bg-muted/30 h-10 px-3 text-left align-middle">N° Attestation</th>
                     <th className="bg-muted/30 h-10 px-3 text-left align-middle">Employeur</th>
                     <th className="bg-muted/30 h-10 px-3 text-left align-middle">Période</th>
-                    <th className="bg-muted/30 h-10 px-3 text-right align-middle">Jours</th>
+                    <th className="bg-muted/30 h-10 px-3 text-right align-middle">Heures</th>
                     <th className="bg-muted/30 h-10 px-3 text-right align-middle">Salaire brut</th>
-                    <th className="bg-muted/30 h-10 px-3 text-right align-middle">Salaire/jour</th>
+                    <th className="bg-muted/30 h-10 px-3 text-right align-middle">Taux horaire</th>
                     <th className="bg-muted/30 h-10 px-3 text-center align-middle">Justif.</th>
                     <th className="bg-muted/30 h-10 px-3 text-center align-middle">Actions</th>
                   </tr>
@@ -632,9 +647,9 @@ export function AemPage() {
                       <td className="p-3 align-middle text-xs">{aem.numeroAttestation}</td>
                       <td className="p-3 align-middle">{aem.employeur}</td>
                       <td className="p-3 align-middle capitalize">{formatMonth(aem.dateDebut)}</td>
-                      <td className="p-3 align-middle text-right">{aem.nombreJours}</td>
+                      <td className="p-3 align-middle text-right">{aem.nombreHeures}</td>
                       <td className="p-3 align-middle text-right font-medium text-emerald-600">{aem.salaireBrut.toFixed(2)} €</td>
-                      <td className="p-3 align-middle text-right text-xs text-muted-foreground">{(aem.salaireBrut / aem.nombreJours).toFixed(2)} €</td>
+                      <td className="p-3 align-middle text-right text-xs text-muted-foreground">{(aem.salaireBrut / aem.nombreHeures).toFixed(2)} €/h</td>
                       <td className="p-3 align-middle text-center">
                         {aem.justificatif ? (
                           <FileCheck className="w-4 h-4 text-emerald-600 mx-auto" />
