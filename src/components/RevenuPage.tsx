@@ -51,6 +51,9 @@ const revenuMockData = [
     employeur: "Théâtre National de Paris",
     type: "Cachet",
     montant: 1847.20,
+    netAPayer: 1425.30,
+    netImposable: 1663.48,
+    prelevementSource: 166.35,
     description: "Spectacle 'Hamlet' - 12 représentations"
   },
   {
@@ -59,6 +62,9 @@ const revenuMockData = [
     employeur: "France Travail",
     type: "ARE",
     montant: 1580.00,
+    netAPayer: 1380.00,
+    netImposable: 1580.00,
+    prelevementSource: 158.00,
     description: "Allocation mensuelle septembre"
   },
   {
@@ -67,6 +73,9 @@ const revenuMockData = [
     employeur: "Opéra Bastille",
     type: "Cachet",
     montant: 1231.50,
+    netAPayer: 950.65,
+    netImposable: 1108.35,
+    prelevementSource: 110.84,
     description: "Production 'Carmen' - 8 jours"
   },
   {
@@ -75,6 +84,9 @@ const revenuMockData = [
     employeur: "France Travail",
     type: "ARE",
     montant: 1580.00,
+    netAPayer: 1380.00,
+    netImposable: 1580.00,
+    prelevementSource: 158.00,
     description: "Allocation mensuelle août"
   },
   {
@@ -83,6 +95,9 @@ const revenuMockData = [
     employeur: "Festival d'Avignon",
     type: "Cachet",
     montant: 2309.80,
+    netAPayer: 1782.57,
+    netImposable: 2078.82,
+    prelevementSource: 207.88,
     description: "Festival - 15 jours"
   },
   {
@@ -91,6 +106,9 @@ const revenuMockData = [
     employeur: "France Travail",
     type: "ARE",
     montant: 1580.00,
+    netAPayer: 1380.00,
+    netImposable: 1580.00,
+    prelevementSource: 158.00,
     description: "Allocation mensuelle juillet"
   },
   {
@@ -99,6 +117,9 @@ const revenuMockData = [
     employeur: "Philharmonie de Paris",
     type: "Cachet",
     montant: 2155.60,
+    netAPayer: 1663.58,
+    netImposable: 1940.04,
+    prelevementSource: 194.00,
     description: "Concert symphonique - 14 jours"
   },
   {
@@ -107,6 +128,9 @@ const revenuMockData = [
     employeur: "Bataclan",
     type: "Cachet",
     montant: 1385.40,
+    netAPayer: 1069.17,
+    netImposable: 1246.86,
+    prelevementSource: 124.69,
     description: "Concert live - 9 jours"
   },
   {
@@ -115,6 +139,9 @@ const revenuMockData = [
     employeur: "France Travail",
     type: "ARE",
     montant: 1580.00,
+    netAPayer: 1380.00,
+    netImposable: 1580.00,
+    prelevementSource: 158.00,
     description: "Allocation mensuelle octobre"
   },
   {
@@ -123,6 +150,9 @@ const revenuMockData = [
     employeur: "Zénith Paris",
     type: "Cachet",
     montant: 1539.00,
+    netAPayer: 1187.61,
+    netImposable: 1385.10,
+    prelevementSource: 138.51,
     description: "Tournée nationale - 10 jours"
   },
 ];
@@ -504,15 +534,23 @@ export function RevenuPage() {
                                     </div>
                                   </div>
 
-                                  <div className="flex items-center justify-between p-3 bg-muted/20 rounded-lg">
+                                  <div className="grid grid-cols-3 gap-3 p-3 bg-muted/20 rounded-lg mb-2">
                                     <div>
-                                      <p className="text-xs text-muted-foreground mb-1">Date de paiement</p>
-                                      <p className="text-sm">{formatDate(revenu.date)}</p>
+                                      <p className="text-xs text-muted-foreground mb-1">Net à payer</p>
+                                      <p className="text-sm font-medium text-blue-600">{revenu.netAPayer.toFixed(2)} €</p>
                                     </div>
-                                    <div className="text-right">
-                                      <p className="text-xs text-muted-foreground mb-1">Montant</p>
-                                      <p className="text-lg font-medium text-blue-600">{revenu.montant.toFixed(2)} €</p>
+                                    <div>
+                                      <p className="text-xs text-muted-foreground mb-1">Net imposable</p>
+                                      <p className="text-sm">{revenu.netImposable.toFixed(2)} €</p>
                                     </div>
+                                    <div>
+                                      <p className="text-xs text-muted-foreground mb-1">Prélèvement source</p>
+                                      <p className="text-sm">{revenu.prelevementSource.toFixed(2)} €</p>
+                                    </div>
+                                  </div>
+
+                                  <div className="text-xs text-muted-foreground text-right">
+                                    Payé le {formatDate(revenu.date)}
                                   </div>
                                 </div>
                               </Card>
@@ -623,7 +661,9 @@ export function RevenuPage() {
                     <th className="bg-muted/30 h-10 px-3 text-left align-middle">Employeur</th>
                     <th className="bg-muted/30 h-10 px-3 text-left align-middle">Description</th>
                     <th className="bg-muted/30 h-10 px-3 text-center align-middle">Type</th>
-                    <th className="bg-muted/30 h-10 px-3 text-right align-middle">Montant</th>
+                    <th className="bg-muted/30 h-10 px-3 text-right align-middle">Net à payer</th>
+                    <th className="bg-muted/30 h-10 px-3 text-right align-middle">Net imposable</th>
+                    <th className="bg-muted/30 h-10 px-3 text-right align-middle">Prélèvement</th>
                     <th className="bg-muted/30 h-10 px-3 text-center align-middle">Actions</th>
                   </tr>
                 </thead>
@@ -638,7 +678,9 @@ export function RevenuPage() {
                           {revenu.type}
                         </Badge>
                       </td>
-                      <td className="p-3 align-middle text-right font-medium text-blue-600">{revenu.montant.toFixed(2)} €</td>
+                      <td className="p-3 align-middle text-right font-medium text-blue-600">{revenu.netAPayer.toFixed(2)} €</td>
+                      <td className="p-3 align-middle text-right">{revenu.netImposable.toFixed(2)} €</td>
+                      <td className="p-3 align-middle text-right text-xs text-muted-foreground">{revenu.prelevementSource.toFixed(2)} €</td>
                       <td className="p-3 align-middle">
                         <div className="flex justify-center gap-1">
                           <Button variant="ghost" size="icon" className="h-7 w-7">
