@@ -31,7 +31,6 @@ export function PreferencesPage() {
   // Informations personnelles
   const [nom, setNom] = useState("Dupont");
   const [prenom, setPrenom] = useState("Jean");
-  const [numeroSecu, setNumeroSecu] = useState("1 85 03 75 116 012 45");
   const [annexeDefaut, setAnnexeDefaut] = useState("8");
   const [jourAnniversaire, setJourAnniversaire] = useState("15");
   const [moisAnniversaire, setMoisAnniversaire] = useState("3");
@@ -46,7 +45,6 @@ export function PreferencesPage() {
   const [puissanceFiscale, setPuissanceFiscale] = useState("5");
 
   // Informations fiscales
-  const [numeroFiscal, setNumeroFiscal] = useState("2508751160124");
   const [tauxPrelevement, setTauxPrelevement] = useState("8.5");
 
   // Revenus de référence
@@ -87,10 +85,10 @@ export function PreferencesPage() {
   const handleSave = () => {
     // TODO: Logique de sauvegarde
     console.log("Préférences sauvegardées:", {
-      nom, prenom, numeroSecu, annexeDefaut, jourAnniversaire, moisAnniversaire,
+      nom, prenom, annexeDefaut, jourAnniversaire, moisAnniversaire,
       adresse, codePostal, ville,
       typeVehicule, puissanceFiscale,
-      numeroFiscal, tauxPrelevement,
+      tauxPrelevement,
       revenusReference,
       objectifHeures, objectifJours, objectifRevenus,
       iban,
@@ -157,16 +155,6 @@ export function PreferencesPage() {
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="numeroSecu">Numéro de sécurité sociale</Label>
-            <Input
-              id="numeroSecu"
-              value={numeroSecu}
-              onChange={(e) => setNumeroSecu(e.target.value)}
-              placeholder="X XX XX XX XXX XXX XX"
-            />
-          </div>
-
-          <div className="space-y-2">
             <Label htmlFor="annexeDefaut">Annexe par défaut</Label>
             <Select value={annexeDefaut} onValueChange={setAnnexeDefaut}>
               <SelectTrigger id="annexeDefaut">
@@ -179,7 +167,7 @@ export function PreferencesPage() {
             </Select>
           </div>
 
-          <div className="space-y-2 col-span-2">
+          <div className="space-y-2">
             <Label>Jour anniversaire du statut</Label>
             <div className="flex gap-3">
               <Select value={jourAnniversaire} onValueChange={setJourAnniversaire}>
@@ -327,61 +315,14 @@ export function PreferencesPage() {
 
       {/* Informations fiscales */}
       <Card className="p-6 bg-card/50 backdrop-blur border-border/50 shadow-sm">
-        <div className="flex items-center gap-3 mb-6">
-          <div className="w-10 h-10 rounded-xl bg-emerald-600/10 flex items-center justify-center">
-            <Euro className="w-5 h-5 text-emerald-600" />
-          </div>
-          <div>
-            <h2 className="text-lg">Informations fiscales</h2>
-            <p className="text-sm text-muted-foreground">Pour vos déclarations et calculs</p>
-          </div>
-        </div>
-
-        <div className="grid grid-cols-2 gap-4">
-          <div className="space-y-2">
-            <Label htmlFor="numeroFiscal">Numéro fiscal</Label>
-            <Input
-              id="numeroFiscal"
-              value={numeroFiscal}
-              onChange={(e) => setNumeroFiscal(e.target.value)}
-              placeholder="13 chiffres"
-            />
-          </div>
-
-          <div className="space-y-2">
-            <Label htmlFor="tauxPrelevement">Taux de prélèvement à la source (%)</Label>
-            <Input
-              id="tauxPrelevement"
-              type="number"
-              step="0.1"
-              value={tauxPrelevement}
-              onChange={(e) => setTauxPrelevement(e.target.value)}
-              placeholder="0.0"
-            />
-          </div>
-
-          <div className="space-y-2">
-            <Label htmlFor="iban">IBAN</Label>
-            <Input
-              id="iban"
-              value={iban}
-              onChange={(e) => setIban(e.target.value)}
-              placeholder="FR76 1234 5678 9012 3456 7890 123"
-            />
-          </div>
-        </div>
-      </Card>
-
-      {/* Revenus de référence */}
-      <Card className="p-6 bg-card/50 backdrop-blur border-border/50 shadow-sm">
         <div className="flex items-center justify-between mb-6">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-xl bg-purple-600/10 flex items-center justify-center">
-              <Calendar className="w-5 h-5 text-purple-600" />
+            <div className="w-10 h-10 rounded-xl bg-emerald-600/10 flex items-center justify-center">
+              <Euro className="w-5 h-5 text-emerald-600" />
             </div>
             <div>
-              <h2 className="text-lg">Revenus de référence</h2>
-              <p className="text-sm text-muted-foreground">Historique de vos revenus annuels</p>
+              <h2 className="text-lg">Informations fiscales</h2>
+              <p className="text-sm text-muted-foreground">Pour vos déclarations et calculs</p>
             </div>
           </div>
           <Button
@@ -394,39 +335,61 @@ export function PreferencesPage() {
           </Button>
         </div>
 
-        <div className="space-y-3">
-          {revenusReference.map((revenu, index) => (
-            <div key={index} className="flex gap-3 items-start">
-              <div className="flex-1 grid grid-cols-2 gap-3">
-                <div className="space-y-2">
-                  <Label>Année</Label>
-                  <Input
-                    type="number"
-                    value={revenu.annee}
-                    onChange={(e) => handleUpdateRevenuReference(index, 'annee', e.target.value)}
-                    placeholder="2024"
-                  />
-                </div>
-                <div className="space-y-2">
-                  <Label>Revenu annuel (€)</Label>
-                  <Input
-                    type="number"
-                    value={revenu.montant}
-                    onChange={(e) => handleUpdateRevenuReference(index, 'montant', e.target.value)}
-                    placeholder="42500"
-                  />
-                </div>
-              </div>
-              <Button
-                variant="ghost"
-                size="icon"
-                className="mt-8"
-                onClick={() => handleRemoveRevenuReference(index)}
-              >
-                <Trash2 className="w-4 h-4 text-destructive" />
-              </Button>
+        <div className="space-y-4">
+          <div className="grid grid-cols-2 gap-4">
+            <div className="space-y-2">
+              <Label htmlFor="tauxPrelevement">Taux de prélèvement à la source (%)</Label>
+              <Input
+                id="tauxPrelevement"
+                type="number"
+                step="0.1"
+                value={tauxPrelevement}
+                onChange={(e) => setTauxPrelevement(e.target.value)}
+                placeholder="0.0"
+              />
             </div>
-          ))}
+          </div>
+
+          <Separator className="my-4" />
+
+          <div>
+            <Label className="text-sm">Revenus de référence</Label>
+            <p className="text-xs text-muted-foreground mb-3">Historique de vos revenus annuels</p>
+            <div className="space-y-3">
+              {revenusReference.map((revenu, index) => (
+                <div key={index} className="flex gap-3 items-start">
+                  <div className="flex-1 grid grid-cols-2 gap-3">
+                    <div className="space-y-2">
+                      <Label className="text-xs">Année</Label>
+                      <Input
+                        type="number"
+                        value={revenu.annee}
+                        onChange={(e) => handleUpdateRevenuReference(index, 'annee', e.target.value)}
+                        placeholder="2024"
+                      />
+                    </div>
+                    <div className="space-y-2">
+                      <Label className="text-xs">Revenu annuel (€)</Label>
+                      <Input
+                        type="number"
+                        value={revenu.montant}
+                        onChange={(e) => handleUpdateRevenuReference(index, 'montant', e.target.value)}
+                        placeholder="42500"
+                      />
+                    </div>
+                  </div>
+                  <Button
+                    variant="ghost"
+                    size="icon"
+                    className="mt-6"
+                    onClick={() => handleRemoveRevenuReference(index)}
+                  >
+                    <Trash2 className="w-4 h-4 text-destructive" />
+                  </Button>
+                </div>
+              ))}
+            </div>
+          </div>
         </div>
       </Card>
 
