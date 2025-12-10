@@ -18,16 +18,20 @@ interface FloatingMenuProps {
 export function FloatingMenu({ currentPage, onPageChange }: FloatingMenuProps) {
   return (
     <aside className="fixed left-6 top-6 bottom-6 w-56 bg-card rounded-2xl border-0 shadow-lg z-50 flex flex-col">
-      <div className="p-6 border-b border-border">
+      <button
+        onClick={() => onPageChange("compte")}
+        className="p-6 border-b border-border hover:bg-muted/50 transition-all rounded-t-2xl text-left"
+      >
         <div className="flex items-center gap-3">
           <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-primary to-purple-600 text-white shadow-lg">
             <span className="text-lg">M</span>
           </div>
           <div className="flex flex-col">
-            <span className="text-sm text-muted-foreground">MIKELONY</span>
+            <span className="text-sm text-foreground">MIKELONY</span>
+            <span className="text-xs text-muted-foreground">Mon compte</span>
           </div>
         </div>
-      </div>
+      </button>
       
       <nav className="flex-1 p-4 overflow-y-auto">
         <div className="flex flex-col gap-1">

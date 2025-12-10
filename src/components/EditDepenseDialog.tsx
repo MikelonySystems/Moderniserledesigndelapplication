@@ -1,19 +1,28 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "./ui/dialog";
 import { Button } from "./ui/button";
 import { Input } from "./ui/input";
 import { Label } from "./ui/label";
 import { Textarea } from "./ui/textarea";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "./ui/select";
 import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList } from "./ui/command";
 import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover";
-import { Check, ChevronsUpDown, Upload, X, FileText, Image as ImageIcon } from "lucide-react";
+import { Check, ChevronsUpDown, Upload, X, FileText } from "lucide-react";
 import { cn } from "./ui/utils";
 import { toast } from "sonner@2.0.3";
 
-interface AddDepenseDialogProps {
+interface EditDepenseDialogProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
+  depense: {
+    id: number;
+    date: string;
+    categorie: string;
+    ttc: number;
+    ht: number;
+    tva: number;
+    details: string;
+    justificatif: boolean;
+  } | null;
 }
 
 // Données simulées de la base de données
@@ -135,11 +144,13 @@ function Combobox({ id, value, onValueChange, options, placeholder, searchPlaceh
   );
 }
 
-export function AddDepenseDialog({ open, onOpenChange }: AddDepenseDialogProps) {
+export function EditDepenseDialog({ open, onOpenChange, depense }: EditDepenseDialogProps) {
   const [typeDepense, setTypeDepense] = useState("");
   const [fournisseur, setFournisseur] = useState("");
   const [justificatifFile, setJustificatifFile] = useState<File | null>(null);
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
+  const [date, setDate] = useState("");
+  const [details, setDetails] = useState("");
   
   // Montants
   const [montantTTC, setMontantTTC] = useState<string>("");
@@ -150,6 +161,22 @@ export function AddDepenseDialog({ open, onOpenChange }: AddDepenseDialogProps) 
   const [partProPourcentage, setPartProPourcentage] = useState<string>("100");
   const [partProMontant, setPartProMontant] = useState<string>("");
   const [customPercentage, setCustomPercentage] = useState(false);
+
+  // Initialiser les valeurs quand la dépense change
+  useEffect(() => {
+    if (depense) {
+      setDate(depense.date);
+      setTypeDepense(depense.categorie);
+      setMontantTTC(depense.ttc.toString());
+      setMontantHT(depense.ht.toString());
+      setTva(depense.tva.toString());
+      setDetails(depense.details);
+      
+      // Initialiser la part pro (par défaut 100%)
+      setPartProPourcentage("100");
+      setPartProMontant(depense.ttc.toString());
+    }
+  }, [depense]);
 
   // Calculer le montant professionnel quand le TTC ou le % change
   const updatePartProFromPercentage = (ttc: string, percentage: string) => {
@@ -229,13 +256,15 @@ export function AddDepenseDialog({ open, onOpenChange }: AddDepenseDialogProps) 
     setPreviewUrl(null);
   };
 
+  if (!depense) return null;
+
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="sm:max-w-[650px] max-h-[90vh] overflow-y-auto">
         <DialogHeader>
-          <DialogTitle>Ajouter une dépense</DialogTitle>
+          <DialogTitle>Modifier la dépense</DialogTitle>
           <DialogDescription>
-            Enregistrez une nouvelle dépense professionnelle
+            Modifiez les informations de votre dépense professionnelle
           </DialogDescription>
         </DialogHeader>
         
@@ -243,7 +272,12 @@ export function AddDepenseDialog({ open, onOpenChange }: AddDepenseDialogProps) 
           {/* Date */}
           <div className="space-y-2">
             <Label htmlFor="date">Date</Label>
-            <Input id="date" type="date" />
+            <Input 
+              id="date" 
+              type="date" 
+              value={date}
+              onChange={(e) => setDate(e.target.value)}
+            />
           </div>
 
           {/* Type et Fournisseur */}
@@ -411,6 +445,8 @@ export function AddDepenseDialog({ open, onOpenChange }: AddDepenseDialogProps) 
               placeholder="Description de la dépense..."
               className="resize-none"
               rows={3}
+              value={details}
+              onChange={(e) => setDetails(e.target.value)}
             />
           </div>
 
@@ -525,7 +561,7 @@ export function AddDepenseDialog({ open, onOpenChange }: AddDepenseDialogProps) 
             className="bg-gradient-to-br from-amber-500 to-orange-600 hover:opacity-90"
             onClick={() => {
               // TODO: Logique de sauvegarde
-              toast.success('Dépense ajoutée avec succès !');
+              toast.success('Dépense modifiée avec succès !');
               onOpenChange(false);
             }}
           >

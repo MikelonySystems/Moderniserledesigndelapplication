@@ -15,6 +15,7 @@ import { AemPage } from "./components/AemPage";
 import { RevenuPage } from "./components/RevenuPage";
 import { BilanAnnuelPage } from "./components/BilanAnnuelPage";
 import { PreferencesPage } from "./components/PreferencesPage";
+import { ComptePage } from "./components/ComptePage";
 import { Toaster } from "./components/ui/sonner";
 import { Wallet, TrendingDown, Clock, Calendar } from "lucide-react";
 
@@ -150,6 +151,10 @@ export default function App() {
           ) : currentPage === "preferences" ? (
             <div className="max-w-[1200px] mx-auto h-full overflow-y-auto">
               <PreferencesPage />
+            </div>
+          ) : currentPage === "compte" ? (
+            <div className="max-w-[1200px] mx-auto h-full overflow-y-auto">
+              <ComptePage />
             </div>
           ) : (
             <div className="max-w-[1600px] mx-auto h-full flex items-center justify-center">

@@ -124,8 +124,8 @@ export function Login({ onLogin, onGoToSignup }: LoginProps) {
               Vous n&apos;avez pas encore de compte ?{' '}
               <button
                 type="button"
-                className="text-[#0A1E3F] hover:underline"
                 onClick={onGoToSignup}
+                className="text-[#0A1E3F] hover:underline"
               >
                 Créer un compte
               </button>

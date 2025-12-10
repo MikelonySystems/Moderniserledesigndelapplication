@@ -1,36 +1,6 @@
-import { useState } from "react";
-import { Card } from "./ui/card";
-import { Button } from "./ui/button";
-import { Label } from "./ui/label";
-import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover";
-import { Calendar } from "./ui/calendar";
-import { Badge } from "./ui/badge";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "./ui/tabs";
-import { 
-  ArrowUp, 
-  ArrowDown, 
-  Calendar as CalendarIcon, 
-  Pencil, 
-  Trash2,
-  LayoutGrid,
-  LayoutList,
-  Euro,
-  FileCheck,
-  FileX,
-  Receipt,
-  CreditCard,
-  X,
-  Plus,
-  Eye,
-  Wallet,
-  Tag,
-  Check
-} from "lucide-react";
-import { format } from "date-fns@4.1.0";
-import { fr } from "date-fns@4.1.0/locale";
-import { toast } from "sonner@2.0.3";
 import { motion, AnimatePresence } from "motion/react";
 import { AddDepenseDialog } from "./AddDepenseDialog";
+import { EditDepenseDialog } from "./EditDepenseDialog";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "./ui/dialog";
 
 // Données d'exemple
@@ -149,6 +119,7 @@ export function DepensesPage() {
   });
   const [categorieFiltre, setCategorieFiltre] = useState<string[]>([]);
   const [addDialogOpen, setAddDialogOpen] = useState(false);
+  const [editDialogOpen, setEditDialogOpen] = useState(false);
   const [selectedDepense, setSelectedDepense] = useState<typeof depensesMockData[0] | null>(null);
   const [detailsDialogOpen, setDetailsDialogOpen] = useState(false);
 
@@ -495,6 +466,10 @@ export function DepensesPage() {
                                   variant="ghost"
                                   size="icon"
                                   className="h-7 w-7"
+                                  onClick={() => {
+                                    setSelectedDepense(depense);
+                                    setEditDialogOpen(true);
+                                  }}
                                 >
                                   <Pencil className="w-3.5 h-3.5" />
                                 </Button>
@@ -597,6 +572,10 @@ export function DepensesPage() {
                             variant="ghost"
                             size="icon"
                             className="h-7 w-7"
+                            onClick={() => {
+                              setSelectedDepense(depense);
+                              setEditDialogOpen(true);
+                            }}
                           >
                             <Pencil className="w-3.5 h-3.5" />
                           </Button>
@@ -675,6 +654,7 @@ export function DepensesPage() {
       </Dialog>
 
       <AddDepenseDialog open={addDialogOpen} onOpenChange={setAddDialogOpen} />
+      <EditDepenseDialog open={editDialogOpen} onOpenChange={setEditDialogOpen} depense={selectedDepense} />
     </div>
   );
 }
