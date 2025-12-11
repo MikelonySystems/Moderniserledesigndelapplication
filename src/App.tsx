@@ -52,7 +52,7 @@ export default function App() {
         {/* Main Content */}
         <main className="flex-1 p-6 overflow-hidden">
           {currentPage === "dashboard" ? (
-            <div className="max-w-[1600px] mx-auto h-full flex flex-col gap-4">
+            <div key="dashboard" className="max-w-[1600px] mx-auto h-full flex flex-col gap-4">
               {/* Top Section: Stats Grid 2x3 + Month Result */}
               <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 flex-shrink-0">
                 {/* Left: 2x3 Stats Grid */}

@@ -551,13 +551,13 @@ export function AemPage() {
         <TabsContent value="graph" className="flex-1 min-h-0 mt-4">
           <div className="h-full grid grid-rows-2 gap-4">
             {/* Graphique en aires - Évolution des salaires */}
-            <Card className="p-6 border border-border/50 shadow-sm min-h-0 flex flex-col">
+            <Card className="p-6 border border-border/50 shadow-sm h-full min-h-0 flex flex-col">
               <div className="mb-4">
                 <h3 className="text-sm mb-1">Évolution des salaires bruts</h3>
                 <p className="text-xs text-muted-foreground">Salaires perçus par mois</p>
               </div>
               <div className="flex-1 min-h-0">
-                <ResponsiveContainer width="100%" height="100%">
+                <ResponsiveContainer width="100%" height="100%" minWidth={0} minHeight={0}>
                   <AreaChart data={chartData}>
                     <defs>
                       <linearGradient id="colorSalaire" x1="0" y1="0" x2="0" y2="1">
@@ -594,13 +594,13 @@ export function AemPage() {
             </Card>
 
             {/* Graphique en barres - Jours par mois */}
-            <Card className="p-6 border border-border/50 shadow-sm min-h-0 flex flex-col">
+            <Card className="p-6 border border-border/50 shadow-sm h-full min-h-0 flex flex-col">
               <div className="mb-4">
                 <h3 className="text-sm mb-1">Nombre de jours travaillés</h3>
                 <p className="text-xs text-muted-foreground">Jours et attestations par mois</p>
               </div>
               <div className="flex-1 min-h-0">
-                <ResponsiveContainer width="100%" height="100%">
+                <ResponsiveContainer width="100%" height="100%" minWidth={0} minHeight={0}>
                   <BarChart data={chartData}>
                     <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" />
                     <XAxis 

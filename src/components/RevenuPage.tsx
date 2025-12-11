@@ -576,76 +576,80 @@ export function RevenuPage() {
         <TabsContent value="graph" className="flex-1 min-h-0 mt-4">
           <div className="h-full grid grid-rows-2 gap-4">
             {/* Graphique en aires - Évolution totale */}
-            <Card className="p-6 border border-border/50 shadow-sm">
-              <div className="mb-4">
+            <Card className="p-6 border border-border/50 shadow-sm h-full min-h-0 flex flex-col">
+              <div className="mb-4 flex-shrink-0">
                 <h3 className="text-sm mb-1">Évolution des revenus totaux</h3>
                 <p className="text-xs text-muted-foreground">Revenus cumulés par mois</p>
               </div>
-              <ResponsiveContainer width="100%" height="85%">
-                <AreaChart data={chartData}>
-                  <defs>
-                    <linearGradient id="colorTotal" x1="0" y1="0" x2="0" y2="1">
-                      <stop offset="5%" stopColor="#3b82f6" stopOpacity={0.3}/>
-                      <stop offset="95%" stopColor="#3b82f6" stopOpacity={0}/>
-                    </linearGradient>
-                  </defs>
-                  <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" />
-                  <XAxis 
-                    dataKey="mois" 
-                    tick={{ fontSize: 12 }}
-                    tickFormatter={(value) => value.split(' ')[0].substring(0, 3)}
-                  />
-                  <YAxis tick={{ fontSize: 12 }} />
-                  <Tooltip 
-                    contentStyle={{ 
-                      backgroundColor: 'white', 
-                      border: '1px solid #e5e7eb',
-                      borderRadius: '8px',
-                      fontSize: '12px'
-                    }}
-                    formatter={(value: any) => [`${value.toFixed(2)} €`, 'Total']}
-                  />
-                  <Area 
-                    type="monotone" 
-                    dataKey="total" 
-                    stroke="#3b82f6" 
-                    strokeWidth={2}
-                    fillOpacity={1} 
-                    fill="url(#colorTotal)" 
-                  />
-                </AreaChart>
-              </ResponsiveContainer>
+              <div className="flex-1 min-h-0">
+                <ResponsiveContainer width="100%" height="100%" minWidth={0} minHeight={0}>
+                  <AreaChart data={chartData}>
+                    <defs>
+                      <linearGradient id="colorTotal" x1="0" y1="0" x2="0" y2="1">
+                        <stop offset="5%" stopColor="#3b82f6" stopOpacity={0.3}/>
+                        <stop offset="95%" stopColor="#3b82f6" stopOpacity={0}/>
+                      </linearGradient>
+                    </defs>
+                    <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" />
+                    <XAxis 
+                      dataKey="mois" 
+                      tick={{ fontSize: 12 }}
+                      tickFormatter={(value) => value.split(' ')[0].substring(0, 3)}
+                    />
+                    <YAxis tick={{ fontSize: 12 }} />
+                    <Tooltip 
+                      contentStyle={{ 
+                        backgroundColor: 'white', 
+                        border: '1px solid #e5e7eb',
+                        borderRadius: '8px',
+                        fontSize: '12px'
+                      }}
+                      formatter={(value: any) => [`${value.toFixed(2)} €`, 'Total']}
+                    />
+                    <Area 
+                      type="monotone" 
+                      dataKey="total" 
+                      stroke="#3b82f6" 
+                      strokeWidth={2}
+                      fillOpacity={1} 
+                      fill="url(#colorTotal)" 
+                    />
+                  </AreaChart>
+                </ResponsiveContainer>
+              </div>
             </Card>
 
             {/* Graphique en barres - Cachets vs ARE */}
-            <Card className="p-6 border border-border/50 shadow-sm">
-              <div className="mb-4">
+            <Card className="p-6 border border-border/50 shadow-sm h-full min-h-0 flex flex-col">
+              <div className="mb-4 flex-shrink-0">
                 <h3 className="text-sm mb-1">Répartition Cachets / ARE</h3>
                 <p className="text-xs text-muted-foreground">Comparaison par mois</p>
               </div>
-              <ResponsiveContainer width="100%" height="85%">
-                <BarChart data={chartData}>
-                  <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" />
-                  <XAxis 
-                    dataKey="mois" 
-                    tick={{ fontSize: 12 }}
-                    tickFormatter={(value) => value.split(' ')[0].substring(0, 3)}
-                  />
-                  <YAxis tick={{ fontSize: 12 }} />
-                  <Tooltip 
-                    contentStyle={{ 
-                      backgroundColor: 'white', 
-                      border: '1px solid #e5e7eb',
-                      borderRadius: '8px',
-                      fontSize: '12px'
-                    }}
-                    formatter={(value: any) => `${value.toFixed(2)} €`}
-                  />
-                  <Legend wrapperStyle={{ fontSize: '12px' }} />
-                  <Bar dataKey="cachet" fill="#3b82f6" name="Cachets" radius={[4, 4, 0, 0]} />
-                  <Bar dataKey="are" fill="#a855f7" name="ARE" radius={[4, 4, 0, 0]} />
-                </BarChart>
-              </ResponsiveContainer>
+              <div className="flex-1 min-h-0">
+                <ResponsiveContainer width="100%" height="100%" minWidth={0} minHeight={0}>
+                  <BarChart data={chartData}>
+                    <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" />
+                    <XAxis 
+                      dataKey="mois" 
+                      tick={{ fontSize: 12 }}
+                      tickFormatter={(value) => value.split(' ')[0].substring(0, 3)}
+                    />
+                    <YAxis tick={{ fontSize: 12 }} />
+                    <Tooltip 
+                      contentStyle={{ 
+                        backgroundColor: 'white', 
+                        border: '1px solid #e5e7eb',
+                        borderRadius: '8px',
+                        fontSize: '12px'
+                      }}
+                      formatter={(value: any) => `${value.toFixed(2)} €`}
+                    />
+                    <Legend wrapperStyle={{ fontSize: '12px' }} />
+                    <Bar dataKey="cachet" fill="#3b82f6" name="Cachets" radius={[4, 4, 0, 0]} />
+                    <Bar dataKey="are" fill="#a855f7" name="ARE" radius={[4, 4, 0, 0]} />
+                  </BarChart>
+                </ResponsiveContainer>
+              </div>
             </Card>
           </div>
         </TabsContent>

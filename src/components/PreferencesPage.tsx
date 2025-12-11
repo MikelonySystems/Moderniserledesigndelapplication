@@ -14,12 +14,10 @@ import {
   Calendar, 
   Euro, 
   Target, 
-  Bell, 
-  Download,
+  Bell,
   Plus,
   Trash2,
   Save,
-  Palette,
   Receipt,
   Settings,
   BarChart3,
@@ -191,11 +189,6 @@ export function PreferencesPage() {
       notifEmail, notifRappelDeclarations, notifObjectifs
     });
     toast.success("Préférences sauvegardées avec succès !");
-  };
-
-  const handleExportData = () => {
-    toast.success("Export des données en cours...");
-    // TODO: Logique d'export
   };
 
   return (
@@ -549,8 +542,8 @@ export function PreferencesPage() {
       {/* Personnalisation du dashboard */}
       <Card className="p-6 bg-card/50 backdrop-blur border-border/50 shadow-sm">
         <div className="flex items-center gap-3 mb-6">
-          <div className="w-10 h-10 rounded-xl bg-indigo-600/10 flex items-center justify-center">
-            <BarChart3 className="w-5 h-5 text-indigo-600" />
+          <div className="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center">
+            <BarChart3 className="w-5 h-5 text-primary" />
           </div>
           <div>
             <h2 className="text-lg">Personnalisation du dashboard</h2>
@@ -571,25 +564,25 @@ export function PreferencesPage() {
                   onClick={() => toggleMetric(metric.id)}
                   className={`relative p-4 rounded-xl border-2 transition-all hover:scale-105 ${
                     isSelected
-                      ? "bg-indigo-500/10 border-indigo-500 shadow-md"
-                      : "bg-muted/20 border-border hover:border-indigo-500/30"
+                      ? "bg-primary/10 border-primary shadow-md"
+                      : "bg-muted/20 border-border hover:border-primary/30"
                   }`}
                 >
                   {isSelected && (
-                    <Badge className="absolute -top-2 -right-2 w-6 h-6 rounded-full bg-indigo-500 text-white flex items-center justify-center p-0">
+                    <Badge className="absolute -top-2 -right-2 w-6 h-6 rounded-full bg-primary text-primary-foreground flex items-center justify-center p-0">
                       {selectionIndex + 1}
                     </Badge>
                   )}
                   <div className="flex flex-col items-center gap-2">
                     <div className={`w-10 h-10 rounded-lg flex items-center justify-center ${
-                      isSelected ? "bg-indigo-500/20" : "bg-muted/30"
+                      isSelected ? "bg-primary/20" : "bg-muted/30"
                     }`}>
                       <Icon className={`w-5 h-5 ${
-                        isSelected ? "text-indigo-600" : "text-muted-foreground"
+                        isSelected ? "text-primary" : "text-muted-foreground"
                       }`} />
                     </div>
                     <span className={`text-xs text-center leading-tight ${
-                      isSelected ? "text-indigo-600 font-medium" : "text-muted-foreground"
+                      isSelected ? "text-primary font-medium" : "text-muted-foreground"
                     }`}>
                       {metric.label}
                     </span>
@@ -599,8 +592,8 @@ export function PreferencesPage() {
             })}
           </div>
 
-          <div className="p-3 bg-indigo-500/5 rounded-lg border border-indigo-500/20">
-            <p className="text-xs text-indigo-600">
+          <div className="p-3 bg-primary/5 rounded-lg border border-primary/20">
+            <p className="text-xs text-primary">
               <strong>Sélection actuelle :</strong> {selectedMetrics.length}/3 métriques •{" "}
               {selectedMetrics.map((id, index) => {
                 const metric = dashboardMetrics.find(m => m.id === id);
@@ -792,68 +785,6 @@ export function PreferencesPage() {
               checked={notifObjectifs}
               onCheckedChange={setNotifObjectifs}
             />
-          </div>
-        </div>
-      </Card>
-
-      {/* Export des données */}
-      <Card className="p-6 bg-card/50 backdrop-blur border-border/50 shadow-sm">
-        <div className="flex items-center gap-3 mb-6">
-          <div className="w-10 h-10 rounded-xl bg-cyan-600/10 flex items-center justify-center">
-            <Download className="w-5 h-5 text-cyan-600" />
-          </div>
-          <div>
-            <h2 className="text-lg">Export des données</h2>
-            <p className="text-sm text-muted-foreground">Téléchargez vos données</p>
-          </div>
-        </div>
-
-        <div className="flex gap-3">
-          <Button
-            variant="outline"
-            onClick={handleExportData}
-          >
-            <Download className="w-4 h-4 mr-2" />
-            Exporter en CSV
-          </Button>
-          <Button
-            variant="outline"
-            onClick={handleExportData}
-          >
-            <Download className="w-4 h-4 mr-2" />
-            Exporter en PDF
-          </Button>
-        </div>
-      </Card>
-
-      {/* Zone dangereuse */}
-      <Card className="p-6 bg-destructive/5 border-destructive/20 shadow-sm">
-        <div className="flex items-center gap-3 mb-4">
-          <div>
-            <h2 className="text-lg text-destructive">Zone dangereuse</h2>
-            <p className="text-sm text-muted-foreground">Actions irréversibles</p>
-          </div>
-        </div>
-
-        <Separator className="my-4" />
-
-        <div className="space-y-4">
-          <div className="flex items-center justify-between">
-            <div>
-              <p className="text-sm">Supprimer toutes les données</p>
-              <p className="text-xs text-muted-foreground">Cette action est irréversible</p>
-            </div>
-            <Button
-              variant="destructive"
-              size="sm"
-              onClick={() => {
-                if (window.confirm("Êtes-vous sûr de vouloir supprimer toutes vos données ? Cette action est irréversible.")) {
-                  toast.error("Fonctionnalité non implémentée");
-                }
-              }}
-            >
-              Supprimer mes données
-            </Button>
           </div>
         </div>
       </Card>
