@@ -9,11 +9,14 @@ import {
   ChevronRight,
   Check,
   AlertTriangle,
+  LogOut,
+  X,
 } from 'lucide-react';
 
 export function ComptePage() {
   const [showCancelDialog, setShowCancelDialog] = useState(false);
   const [showDeleteDialog, setShowDeleteDialog] = useState(false);
+  const [showInvoicesDialog, setShowInvoicesDialog] = useState(false);
 
   // Données mockées
   const userData = {
@@ -79,18 +82,78 @@ export function ComptePage() {
     },
   ];
 
+  // Données mockées pour toutes les factures
+  const allInvoices = [
+    {
+      number: 'INV-2024-12-001',
+      date: '15 décembre 2024',
+      amount: '9,99 €',
+      status: 'Payée',
+      period: 'Décembre 2024',
+    },
+    {
+      number: 'INV-2024-11-001',
+      date: '15 novembre 2024',
+      amount: '9,99 €',
+      status: 'Payée',
+      period: 'Novembre 2024',
+    },
+    {
+      number: 'INV-2024-10-001',
+      date: '15 octobre 2024',
+      amount: '9,99 €',
+      status: 'Payée',
+      period: 'Octobre 2024',
+    },
+    {
+      number: 'INV-2024-09-001',
+      date: '15 septembre 2024',
+      amount: '9,99 €',
+      status: 'Payée',
+      period: 'Septembre 2024',
+    },
+    {
+      number: 'INV-2024-08-001',
+      date: '15 août 2024',
+      amount: '9,99 €',
+      status: 'Payée',
+      period: 'Août 2024',
+    },
+    {
+      number: 'INV-2024-07-001',
+      date: '15 juillet 2024',
+      amount: '9,99 €',
+      status: 'Payée',
+      period: 'Juillet 2024',
+    },
+  ];
+
+  const handleLogout = () => {
+    // Logique de déconnexion
+    console.log('Déconnexion');
+  };
+
   return (
     <div className="h-full overflow-y-auto">
       <div className="max-w-5xl mx-auto space-y-6 pb-8">
         {/* En-tête */}
-        <div className="flex items-center gap-4">
-          <div className="flex h-16 w-16 items-center justify-center rounded-2xl bg-gradient-to-br from-[#0A1E3F] to-purple-600 text-white shadow-lg">
-            <User className="w-8 h-8" />
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-4">
+            <div className="flex h-16 w-16 items-center justify-center rounded-2xl bg-gradient-to-br from-[#0A1E3F] to-purple-600 text-white shadow-lg">
+              <User className="w-8 h-8" />
+            </div>
+            <div>
+              <h1 className="text-[#0A1E3F]">Mon Compte</h1>
+              <p className="text-[#6B7280]">Gérez votre compte et votre abonnement</p>
+            </div>
           </div>
-          <div>
-            <h1 className="text-[#0A1E3F]">Mon Compte</h1>
-            <p className="text-[#6B7280]">Gérez votre compte et votre abonnement</p>
-          </div>
+          <button
+            onClick={handleLogout}
+            className="flex items-center gap-2 px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-all shadow-md"
+          >
+            <LogOut className="w-4 h-4" />
+            Déconnexion
+          </button>
         </div>
 
         {/* Informations personnelles */}
@@ -248,7 +311,10 @@ export function ComptePage() {
               Télécharger
             </button>
           </div>
-          <button className="mt-4 text-[#0A1E3F] hover:underline">
+          <button
+            onClick={() => setShowInvoicesDialog(true)}
+            className="mt-4 text-[#0A1E3F] hover:underline"
+          >
             Voir toutes les factures
           </button>
         </div>
@@ -375,6 +441,56 @@ export function ComptePage() {
               >
                 Supprimer définitivement
               </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Dialog: Toutes les factures */}
+      {showInvoicesDialog && (
+        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
+          <div className="bg-white rounded-2xl shadow-xl max-w-2xl w-full p-6">
+            <div className="flex items-center justify-between mb-4">
+              <h3 className="text-[#0A1E3F]">Toutes les factures</h3>
+              <button
+                onClick={() => setShowInvoicesDialog(false)}
+                className="text-[#0A1E3F] hover:underline"
+              >
+                Fermer
+              </button>
+            </div>
+            <div className="space-y-4">
+              {allInvoices.map((invoice) => (
+                <div
+                  key={invoice.number}
+                  className="flex items-center gap-4 p-4 bg-[#F9FAFB] rounded-xl"
+                >
+                  <div className="flex items-center justify-center w-12 h-12 bg-white rounded-lg border border-[#E5E7EB]">
+                    <FileText className="w-6 h-6 text-[#0A1E3F]" />
+                  </div>
+                  <div className="flex-1">
+                    <p className="text-[#374151]">
+                      Facture n°{invoice.number}
+                    </p>
+                    <p className="text-sm text-[#6B7280]">
+                      {invoice.date} • {invoice.amount} •{' '}
+                      <span
+                        className={`${
+                          invoice.status === 'Payée'
+                            ? 'text-emerald-600'
+                            : 'text-red-600'
+                        }`}
+                      >
+                        {invoice.status}
+                      </span>
+                    </p>
+                  </div>
+                  <button className="flex items-center gap-2 px-4 py-2 bg-[#0A1E3F] text-white rounded-lg hover:bg-[#152945] transition-all">
+                    <Download className="w-4 h-4" />
+                    Télécharger
+                  </button>
+                </div>
+              ))}
             </div>
           </div>
         </div>
