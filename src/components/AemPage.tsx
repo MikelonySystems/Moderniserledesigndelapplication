@@ -551,75 +551,78 @@ export function AemPage() {
         <TabsContent value="graph" className="flex-1 min-h-0 mt-4">
           <div className="h-full grid grid-rows-2 gap-4">
             {/* Graphique en aires - Évolution des salaires */}
-            <Card className="p-6 border border-border/50 shadow-sm">
+            <Card className="p-6 border border-border/50 shadow-sm min-h-0 flex flex-col">
               <div className="mb-4">
                 <h3 className="text-sm mb-1">Évolution des salaires bruts</h3>
                 <p className="text-xs text-muted-foreground">Salaires perçus par mois</p>
               </div>
-              <ResponsiveContainer width="100%" height="85%">
-                <AreaChart data={chartData}>
-                  <defs>
-                    <linearGradient id="colorSalaire" x1="0" y1="0" x2="0" y2="1">
-                      <stop offset="5%" stopColor="#10b981" stopOpacity={0.3}/>
-                      <stop offset="95%" stopColor="#10b981" stopOpacity={0}/>
-                    </linearGradient>
-                  </defs>
-                  <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" />
-                  <XAxis 
-                    dataKey="mois" 
-                    tick={{ fontSize: 12 }}
-                    tickFormatter={(value) => value.split(' ')[0].substring(0, 3)}
-                  />
-                  <YAxis tick={{ fontSize: 12 }} />
-                  <Tooltip 
-                    contentStyle={{ 
-                      backgroundColor: 'white', 
-                      border: '1px solid #e5e7eb',
-                      borderRadius: '8px',
-                      fontSize: '12px'
-                    }}
-                    formatter={(value: any) => [`${value.toFixed(2)} €`, 'Salaire']}
-                  />
-                  <Area 
-                    type="monotone" 
-                    dataKey="salaire" 
-                    stroke="#10b981" 
-                    strokeWidth={2}
-                    fillOpacity={1} 
-                    fill="url(#colorSalaire)" 
-                  />
-                </AreaChart>
-              </ResponsiveContainer>
+              <div className="flex-1 min-h-0">
+                <ResponsiveContainer width="100%" height="100%">
+                  <AreaChart data={chartData}>
+                    <defs>
+                      <linearGradient id="colorSalaire" x1="0" y1="0" x2="0" y2="1">
+                        <stop offset="5%" stopColor="#10b981" stopOpacity={0.3}/>
+                        <stop offset="95%" stopColor="#10b981" stopOpacity={0}/>
+                      </linearGradient>
+                    </defs>
+                    <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" />
+                    <XAxis 
+                      dataKey="mois" 
+                      tick={{ fontSize: 12 }}
+                      tickFormatter={(value) => value.split(' ')[0].substring(0, 3)}
+                    />
+                    <YAxis tick={{ fontSize: 12 }} />
+                    <Tooltip 
+                      contentStyle={{ 
+                        backgroundColor: 'white', 
+                        border: '1px solid #e5e7eb',
+                        borderRadius: '8px',
+                        fontSize: '12px'
+                      }}
+                    />
+                    <Area 
+                      type="monotone" 
+                      dataKey="salaire" 
+                      stroke="#10b981" 
+                      fill="url(#colorSalaire)" 
+                      strokeWidth={2}
+                      name="Salaire brut"
+                    />
+                  </AreaChart>
+                </ResponsiveContainer>
+              </div>
             </Card>
 
             {/* Graphique en barres - Jours par mois */}
-            <Card className="p-6 border border-border/50 shadow-sm">
+            <Card className="p-6 border border-border/50 shadow-sm min-h-0 flex flex-col">
               <div className="mb-4">
                 <h3 className="text-sm mb-1">Nombre de jours travaillés</h3>
                 <p className="text-xs text-muted-foreground">Jours et attestations par mois</p>
               </div>
-              <ResponsiveContainer width="100%" height="85%">
-                <BarChart data={chartData}>
-                  <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" />
-                  <XAxis 
-                    dataKey="mois" 
-                    tick={{ fontSize: 12 }}
-                    tickFormatter={(value) => value.split(' ')[0].substring(0, 3)}
-                  />
-                  <YAxis tick={{ fontSize: 12 }} />
-                  <Tooltip 
-                    contentStyle={{ 
-                      backgroundColor: 'white', 
-                      border: '1px solid #e5e7eb',
-                      borderRadius: '8px',
-                      fontSize: '12px'
-                    }}
-                  />
-                  <Legend wrapperStyle={{ fontSize: '12px' }} />
-                  <Bar dataKey="jours" fill="#14b8a6" name="Jours" radius={[4, 4, 0, 0]} />
-                  <Bar dataKey="attestations" fill="#84cc16" name="Attestations" radius={[4, 4, 0, 0]} />
-                </BarChart>
-              </ResponsiveContainer>
+              <div className="flex-1 min-h-0">
+                <ResponsiveContainer width="100%" height="100%">
+                  <BarChart data={chartData}>
+                    <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" />
+                    <XAxis 
+                      dataKey="mois" 
+                      tick={{ fontSize: 12 }}
+                      tickFormatter={(value) => value.split(' ')[0].substring(0, 3)}
+                    />
+                    <YAxis tick={{ fontSize: 12 }} />
+                    <Tooltip 
+                      contentStyle={{ 
+                        backgroundColor: 'white', 
+                        border: '1px solid #e5e7eb',
+                        borderRadius: '8px',
+                        fontSize: '12px'
+                      }}
+                    />
+                    <Legend wrapperStyle={{ fontSize: '12px' }} />
+                    <Bar dataKey="jours" fill="#14b8a6" name="Jours" radius={[4, 4, 0, 0]} />
+                    <Bar dataKey="attestations" fill="#84cc16" name="Attestations" radius={[4, 4, 0, 0]} />
+                  </BarChart>
+                </ResponsiveContainer>
+              </div>
             </Card>
           </div>
         </TabsContent>
